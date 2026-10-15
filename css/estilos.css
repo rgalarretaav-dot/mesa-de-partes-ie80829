@@ -1,0 +1,793 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f4f6f9;
+    background-image: 
+        radial-gradient(circle at 15% 25%, rgba(13, 59, 102, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(26, 95, 168, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
+    background-attachment: fixed;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ============ PARTÍCULAS FLOTANTES DE FONDO ============ */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(26, 95, 168, 0.08) 2px, transparent 2px),
+        radial-gradient(circle, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+    background-size: 80px 80px, 40px 40px;
+    background-position: 0 0, 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+    animation: particleFloat 30s linear infinite;
+}
+
+@keyframes particleFloat {
+    0% { background-position: 0 0, 20px 20px; }
+    100% { background-position: 80px 80px, 100px 100px; }
+}
+
+/* ============ ANIMACIONES GLOBALES ============ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes floatRotate {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(26, 95, 168, 0.4); }
+    50% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(26, 95, 168, 0); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(13, 59, 102, 0.06); }
+    50% { box-shadow: 0 8px 30px rgba(26, 95, 168, 0.15); }
+}
+
+@keyframes borderRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1.05); }
+    70% { transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInFromTop {
+    0% { opacity: 0; transform: translateY(-100px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-3deg); }
+    75% { transform: translateY(-5px) rotate(3deg); }
+}
+
+@keyframes waveHeader {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ============ ENCABEZADO ============ */
+.header {
+    background: white;
+    padding: 25px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-bottom: 3px solid #0d3b66;
+    position: relative;
+    animation: slideInFromTop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+    overflow: hidden;
+}
+
+/* Barra de luz que cruza el header al cargar */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.08), transparent);
+    animation: shine 2s ease-in-out 1s;
+    pointer-events: none;
+}
+
+/* ============ BOTÓN ADMIN ============ */
+.btn-admin-acceso {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(13, 59, 102, 0.08);
+    color: #0d3b66;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+    animation: floatRotate 4s ease-in-out infinite;
+}
+
+.btn-admin-acceso:hover {
+    background: rgba(13, 59, 102, 0.18);
+    transform: scale(1.2) rotate(10deg);
+    animation-play-state: paused;
+    box-shadow: 0 0 20px rgba(13, 59, 102, 0.3);
+}
+
+/* ============ CONTENIDO HEADER ============ */
+.header-contenido {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.header-texto {
+    flex: 1;
+    max-width: 750px;
+    animation: fadeInLeft 1s ease-out 0.3s both;
+}
+
+.header-texto h1 {
+    font-size: 1.5rem;
+    color: #0d3b66;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.header-texto h1 span {
+    background: linear-gradient(90deg, #1a5fa8, #3b82f6, #60a5fa, #3b82f6, #1a5fa8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+    font-weight: 700;
+}
+
+.subtitulo {
+    font-size: 0.85rem;
+    color: #666;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 700px;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+/* ============ LOGO PROFESIONAL ============ */
+.header-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: zoomIn 1s ease-out 0.4s both;
+    position: relative;
+}
+
+/* Anillo animado alrededor del logo */
+.header-logo::before {
+    content: '';
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px dashed rgba(26, 95, 168, 0.3);
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.logo-header-img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    padding: 8px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(13, 59, 102, 0.15);
+    border: 3px solid #f1f5f9;
+    transition: all 0.4s ease;
+    animation: float 3.5s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-header-img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(13, 59, 102, 0.4);
+    animation-play-state: paused;
+    border-color: #1a5fa8;
+}
+
+/* ============ TARJETAS ============ */
+.contenedor-principal {
+    flex: 1;
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 16px;
+    padding: 35px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border: 2px solid transparent;
+}
+
+/* Entrada escalonada de las tarjetas */
+.tarjeta:nth-child(1) { animation-delay: 0.3s; }
+.tarjeta:nth-child(2) { animation-delay: 0.45s; }
+.tarjeta:nth-child(3) { animation-delay: 0.6s; }
+.tarjeta:nth-child(4) { animation-delay: 0.75s; }
+
+/* Barra superior animada */
+.tarjeta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0d3b66, #1a5fa8, #3b82f6, #60a5fa);
+    background-size: 200% 100%;
+    transition: width 0.6s ease;
+    animation: borderRotate 3s linear infinite;
+}
+
+.tarjeta:hover::before {
+    width: 100%;
+}
+
+/* Efecto de brillo que cruza la tarjeta */
+.tarjeta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+    transition: left 0.8s ease;
+    pointer-events: none;
+}
+
+.tarjeta:hover::after {
+    left: 100%;
+}
+
+.tarjeta:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(13, 59, 102, 0.18);
+    border-color: rgba(26, 95, 168, 0.15);
+}
+
+/* ============ ICONOS DE TARJETA ============ */
+.tarjeta-icono {
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+/* Círculo pulsante alrededor del icono */
+.tarjeta-icono::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    background: inherit;
+    opacity: 0.4;
+    z-index: -1;
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+.tarjeta:hover .tarjeta-icono {
+    transform: scale(1.2) rotate(-8deg);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.tarjeta:hover .tarjeta-icono::before {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.tarjeta-icono svg {
+    width: 32px;
+    height: 32px;
+    color: white;
+    fill: none;
+    stroke: white;
+    transition: transform 0.5s ease;
+}
+
+.tarjeta:hover .tarjeta-icono svg {
+    transform: scale(1.15) rotate(8deg);
+    animation: iconBounce 0.6s ease-in-out;
+}
+
+.tarjeta-icono.azul { background: linear-gradient(135deg, #0d3b66, #1a5fa8, #3b82f6); background-size: 200% 200%; animation: borderRotate 4s ease infinite; }
+.tarjeta-icono.verde { background: linear-gradient(135deg, #0a7c5c, #10a37f, #34d399); background-size: 200% 200%; animation: borderRotate 4s ease infinite; }
+.tarjeta-icono.naranja { background: linear-gradient(135deg, #c45500, #f08519, #fbbf24); background-size: 200% 200%; animation: borderRotate 4s ease infinite; }
+.tarjeta-icono.morado { background: linear-gradient(135deg, #6d28d9, #a855f7, #c084fc); background-size: 200% 200%; animation: borderRotate 4s ease infinite; }
+
+/* ============ TEXTO DE TARJETA ============ */
+.tarjeta h2 {
+    font-size: 1.25rem;
+    color: #0d3b66;
+    margin-bottom: 10px;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.tarjeta:hover h2 {
+    color: #1a5fa8;
+    transform: translateX(5px);
+}
+
+.tarjeta p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    flex: 1;
+    line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+.tarjeta:hover p {
+    color: #444;
+}
+
+/* ============ BOTONES ============ */
+.btn-principal {
+    background: linear-gradient(135deg, #0d3b66, #1a5fa8);
+    background-size: 200% 200%;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(13, 59, 102, 0.2);
+}
+
+.btn-principal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.6s ease;
+    z-index: -1;
+}
+
+.btn-principal:hover::before {
+    left: 100%;
+}
+
+.btn-principal:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(26, 95, 168, 0.5);
+    background-position: 100% 100%;
+}
+
+.btn-principal:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* ============ PIE DE PÁGINA ============ */
+.footer {
+    background: linear-gradient(135deg, #0d3b66, #1a5fa8);
+    background-size: 200% 200%;
+    animation: borderRotate 8s ease infinite;
+    color: white;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation: shine 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.footer p {
+    margin: 5px 0;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.footer:hover p {
+    opacity: 1;
+    letter-spacing: 0.5px;
+}
+
+/* ============ HEADER SIMPLE (páginas internas) ============ */
+.header-simple {
+    background: linear-gradient(135deg, #0d3b66, #1a5fa8);
+    background-size: 200% 200%;
+    animation: borderRotate 6s ease infinite;
+    color: white;
+    padding: 25px 20px;
+    animation: fadeInDown 0.8s ease-out, borderRotate 6s ease infinite;
+}
+
+.header-simple-contenido {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header-simple h1 {
+    font-size: 1.6rem;
+    margin: 10px 0 5px 0;
+}
+
+.header-simple p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.btn-volver {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-volver:hover {
+    background: rgba(255,255,255,0.35);
+    transform: translateX(-5px) scale(1.05);
+}
+
+/* ============ FORMULARIO ============ */
+.contenedor-formulario {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.formulario-caja {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+    position: relative;
+    overflow: hidden;
+}
+
+.formulario-caja::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #0d3b66, #1a5fa8, #3b82f6, #60a5fa, #3b82f6, #1a5fa8, #0d3b66);
+    background-size: 200% 100%;
+    animation: borderRotate 4s linear infinite;
+}
+
+.formulario-caja h2 {
+    color: #0d3b66;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.formulario-descripcion {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.campo {
+    margin-bottom: 22px;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.campo:nth-child(1) { animation-delay: 0.3s; }
+.campo:nth-child(2) { animation-delay: 0.35s; }
+.campo:nth-child(3) { animation-delay: 0.4s; }
+.campo:nth-child(4) { animation-delay: 0.45s; }
+.campo:nth-child(5) { animation-delay: 0.5s; }
+.campo:nth-child(6) { animation-delay: 0.55s; }
+.campo:nth-child(7) { animation-delay: 0.6s; }
+.campo:nth-child(8) { animation-delay: 0.65s; }
+
+.campo label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="tel"],
+.campo input[type="number"],
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e6ed;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #fafbfc;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #1a5fa8;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(26, 95, 168, 0.15);
+    transform: translateY(-3px);
+}
+
+.campo input:focus + label,
+.campo select:focus + label {
+    color: #1a5fa8;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.campo small {
+    display: block;
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 6px;
+}
+
+.fila-doble {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.campo input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #1a5fa8;
+    border-radius: 10px;
+    background: #f0f7ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.campo input[type="file"]:hover {
+    background: #e0f0ff;
+    border-color: #0d3b66;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(26, 95, 168, 0.15);
+}
+
+/* ============ BOTÓN ENVIAR ============ */
+.btn-enviar {
+    width: 100%;
+    background: linear-gradient(135deg, #0d3b66, #1a5fa8, #3b82f6);
+    background-size: 200% 200%;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(13, 59, 102, 0.2);
+}
+
+.btn-enviar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.7s ease;
+}
+
+.btn-enviar:hover::after {
+    left: 100%;
+}
+
+.btn-enviar:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(13, 59, 102, 0.5);
+    background-position: 100% 100%;
+}
+
+.btn-enviar:active {
+    transform: translateY(-2px) scale(1);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .header {
+        padding: 20px;
+    }
+    
+    .header-contenido {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .header-texto h1 {
+        font-size: 1.2rem;
+    }
+    
+    .subtitulo {
+        font-size: 0.8rem;
+    }
+    
+    .logo-header-img {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .header-logo::before {
+        width: 105px;
+        height: 105px;
+    }
+    
+    .btn-admin-acceso {
+        top: 10px;
+        right: 10px;
+        font-size: 0.95rem;
+        padding: 6px 10px;
+    }
+    
+    .tarjeta:hover {
+        transform: translateY(-6px) scale(1.01);
+    }
+}
+
+@media (max-width: 600px) {
+    .formulario-caja {
+        padding: 25px 20px;
+    }
+    .fila-doble {
+        grid-template-columns: 1fr;
+    }
+}

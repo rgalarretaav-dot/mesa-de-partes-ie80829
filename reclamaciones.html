@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro de Reclamaciones - I.E. 80829 José Octubre</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-reclamacion { max-width: 800px; margin: 30px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-reclamacion h2 { color: #1e3a8a; border-bottom: 2px solid #e0e6ed; padding-bottom: 15px; }
+        .seccion { margin-bottom: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #2563eb; }
+        .seccion h3 { color: #1e3a8a; margin-top: 0; font-size: 1.1rem; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        .form-group textarea { height: 100px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn-enviar-reclamo { width: 100%; padding: 15px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .btn-enviar-reclamo:hover { background: #1d4ed8; }
+        .aviso-legal { font-size: 0.8rem; color: #666; margin-top: 15px; padding: 12px; background: #fffbeb; border-radius: 6px; border-left: 4px solid #f59e0b; line-height: 1.5; }
+        .btn-volver { display: inline-block; margin: 20px; padding: 10px 20px; background: #64748b; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-contenido">
+            <div class="header-texto">
+                <h1>Libro de Reclamaciones Virtual</h1>
+                <p class="subtitulo">I.E. 80829 José Octubre</p>
+            </div>
+            <div class="header-logo">
+                <div class="logo-circulo">
+                    <span>IE</span>
+                    <small>80829</small>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <a href="index.html" class="btn-volver">← Volver al inicio</a>
+
+    <main class="contenedor-principal">
+        <form id="formReclamacion" class="form-reclamacion">
+            <h2>📋 Hoja de Reclamación Virtual</h2>
+            <p style="color: #666;">Complete el siguiente formulario. Su reclamo o queja será atendido en un plazo máximo de 30 días calendario, conforme al D.S. N° 011-2011-PCM.</p>
+
+            <!-- SECCIÓN 1: CONSUMIDOR -->
+            <div class="seccion">
+                <h3>1. Identificación del Consumidor Reclamante</h3>
+                <div class="form-group">
+                    <label>Nombre completo o Razón Social *</label>
+                    <input type="text" id="nombre_consumidor" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Documento *</label>
+                        <select id="tipo_documento" required>
+                            <option value="">Seleccione...</option>
+                            <option value="DNI">DNI</option>
+                            <option value="CE">Carné de Extranjería</option>
+                            <option value="PASAPORTE">Pasaporte</option>
+                            <option value="RUC">RUC</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Documento *</label>
+                        <input type="text" id="numero_documento" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Domicilio</label>
+                        <input type="text" id="domicilio">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="telefono">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico *</label>
+                    <input type="email" id="correo" required>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: BIEN CONTRATADO -->
+            <div class="seccion">
+                <h3>2. Identificación del Bien Contratado</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Bien *</label>
+                        <select id="tipo_bien" required>
+                            <option value="">Seleccione...</option>
+                            <option value="PRODUCTO">Producto</option>
+                            <option value="SERVICIO">Servicio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Monto Reclamado (S/)</label>
+                        <input type="number" id="monto_reclamado" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción del Producto o Servicio *</label>
+                    <textarea id="descripcion_bien" required placeholder="Ej: Trámite de constancia de estudios, matrícula, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: DETALLE -->
+            <div class="seccion">
+                <h3>3. Detalle de la Reclamación y Pedido del Consumidor</h3>
+                <div class="form-group">
+                    <label>Tipo de Reclamación *</label>
+                    <select id="tipo_reclamacion" required>
+                        <option value="">Seleccione...</option>
+                        <option value="RECLAMO">RECLAMO (Disconformidad con el servicio)</option>
+                        <option value="QUEJA">QUEJA (Malestar con la atención)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Detalle de la Reclamación *</label>
+                    <textarea id="detalle_reclamacion" required placeholder="Describa lo sucedido con el mayor detalle posible..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Pedido Concreto *</label>
+                    <textarea id="pedido_consumidor" required placeholder="¿Qué solución espera? Ej: Devolución del monto, corrección del error, etc."></textarea>
+                </div>
+            </div>
+
+            <div class="aviso-legal">
+                <strong>Declaración de Conformidad:</strong> Al enviar este formulario, declaro que la información proporcionada es veraz y que he leído las condiciones del Libro de Reclamaciones Virtual. Entiendo que este reclamo no limita mi derecho a acudir a otras instancias.
+            </div>
+
+            <button type="submit" class="btn-enviar-reclamo" style="margin-top: 20px;">📨 Enviar Reclamo</button>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 I.E. 80829 José Octubre - Libro de Reclamaciones Virtual</p>
+        <p>Conforme al D.S. N° 011-2011-PCM y sus modificatorias</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

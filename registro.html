@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Trámite - I.E. 80829</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ENCABEZADO SIMPLE -->
+    <header class="header-simple">
+        <div class="header-simple-contenido">
+            <a href="index.html" class="btn-volver">← Volver al inicio</a>
+            <h1>Mesa de Partes Virtual</h1>
+            <p>I.E. 80829 José Octubre</p>
+        </div>
+    </header>
+
+    <!-- FORMULARIO -->
+    <main class="contenedor-formulario">
+        <div class="formulario-caja">
+            <h2>Registrar nuevo trámite</h2>
+            <p class="formulario-descripcion">Complete todos los campos. Recibirá un correo con su número de expediente.</p>
+
+            <form id="formRegistro">
+                
+                <div class="campo">
+                    <label for="nombre">Nombre completo del solicitante *</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez García">
+                </div>
+
+                <div class="fila-doble">
+                    <div class="campo">
+                        <label for="dni">DNI *</label>
+                        <input type="text" id="dni" name="dni" required maxlength="8" placeholder="8 dígitos">
+                    </div>
+                    <div class="campo">
+                        <label for="telefono">Teléfono / Celular</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Opcional">
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="correo">Correo electrónico *</label>
+                    <input type="email" id="correo" name="correo" required placeholder="ejemplo@correo.com">
+                </div>
+
+                <div class="campo">
+                    <label for="tipo">Tipo de documento *</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">-- Seleccione --</option>
+                        <option value="Informe">Informe</option>
+                        <option value="Solicitud">Solicitud</option>
+                        <option value="Plan">Plan</option>
+                        <option value="Oficio">Oficio</option>
+                        <option value="Carta">Carta</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="asunto">Asunto (describa brevemente) *</label>
+                    <textarea id="asunto" name="asunto" required rows="3" placeholder="Ej: Solicito constancia de estudios para mi hijo"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="folios">Cantidad de folios</label>
+                    <input type="number" id="folios" name="folios" min="1" placeholder="Opcional">
+                </div>
+
+                <div class="campo">
+                    <label for="archivo">Suba su documento en PDF *</label>
+                    <input type="file" id="archivo" name="archivo" accept=".pdf" required>
+                    <small>Solo archivos PDF. Tamaño máximo: 5 MB.</small>
+                </div>
+
+                <button type="submit" class="btn-enviar">📤 Enviar Documento</button>
+
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 I.E. 80829 José Octubre - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Scripts (Supabase y EmailJS) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

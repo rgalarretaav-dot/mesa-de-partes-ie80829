@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa de Partes Virtual - I.E. 80829 José Olaya</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ============ ENCABEZADO ============ -->
+    <header class="header">
+        <a href="admin.html" title="Acceso Administrativo" class="btn-admin-acceso">
+            🔐
+        </a>
+
+        <div class="header-contenido">
+            <div class="header-texto">
+                <h1>Bienvenido a la Plataforma Digital de Atención al Ciudadano de la <span>I.E. 80829 José Olaya</span></h1>
+                <p class="subtitulo">"Se necesita acercar la Institución a la gente. Para lograrlo se requiere voluntad política para asumir acciones a favor de la descentralización."</p>
+            </div>
+            <div class="header-logo">
+                <img src="logo.png" alt="Escudo I.E. 80829 José Olaya" class="logo-header-img">
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ TARJETAS PRINCIPALES ============ -->
+    <main class="contenedor-principal">
+        <section class="tarjetas">
+
+            <!-- Tarjeta 1: Mesa de Partes (Secretaria) -->
+            <div class="tarjeta">
+                <div class="tarjeta-icono azul">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Cabeza -->
+                        <circle cx="12" cy="8" r="4"/>
+                        <!-- Cuerpo/torso con corbata -->
+                        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <!-- Corbata -->
+                        <path d="M12 14v3"/>
+                        <path d="M11 17h2"/>
+                    </svg>
+                </div>
+                <h2>Mesa de Partes Virtual</h2>
+                <p>Aquí podrás registrar o verificar el estado de tus trámites.</p>
+                <a href="registro.html" class="btn-principal">Ingresa aquí</a>
+            </div>
+
+            <!-- Tarjeta 2: Seguimiento de Expediente (Documento + Lupa) -->
+            <div class="tarjeta">
+                <div class="tarjeta-icono verde">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="8" y1="13" x2="12" y2="13"/>
+                        <line x1="8" y1="17" x2="11" y2="17"/>
+                        <circle cx="17" cy="16" r="2.5"/>
+                        <line x1="19" y1="18" x2="21" y2="20"/>
+                    </svg>
+                </div>
+                <h2>Seguimiento de Expediente</h2>
+                <p>Consulta en tiempo real cómo avanza tu trámite con tu número de expediente.</p>
+                <a href="seguimiento.html" class="btn-principal">Consultar aquí</a>
+            </div>
+
+            <!-- Tarjeta 3: Libro de Reclamaciones (Libro) -->
+            <div class="tarjeta">
+                <div class="tarjeta-icono naranja">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        <line x1="8" y1="7" x2="16" y2="7"/>
+                        <line x1="8" y1="11" x2="14" y2="11"/>
+                        <line x1="8" y1="15" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <h2>Libro de Reclamaciones</h2>
+                <p>Registra tu reclamo o queja. Será atendido en un plazo máximo de 30 días.</p>
+                <a href="reclamaciones.html" class="btn-principal">Ingresa aquí</a>
+            </div>
+
+            <!-- Tarjeta 4: Seguimiento de Reclamo (Lupa + Check) -->
+            <div class="tarjeta">
+                <div class="tarjeta-icono morado">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"/>
+                        <line x1="21" y1="21" x2="16.5" y2="16.5"/>
+                        <polyline points="8 11 10.5 13.5 14 9.5"/>
+                    </svg>
+                </div>
+                <h2>Seguimiento de Reclamo</h2>
+                <p>Consulta el estado de tu reclamo o queja con tu código REC-2026-XXXX.</p>
+                <a href="seguimiento-reclamaciones.html" class="btn-principal">Consultar aquí</a>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ============ PIE DE PÁGINA ============ -->
+    <footer class="footer">
+        <p>© 2026 I.E. 80829 José Olaya - Todos los derechos reservados</p>
+        <p>Mesa de Partes Virtual | Desarrollado con ❤️ para la comunidad educativa</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

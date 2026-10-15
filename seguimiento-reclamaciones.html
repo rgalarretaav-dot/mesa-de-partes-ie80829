@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Reclamo - I.E. 80829</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .card-consulta { max-width: 700px; margin: 40px auto; padding: 35px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .card-consulta h2 { color: #1e3a8a; margin-top: 0; border-bottom: 2px solid #e0e6ed; padding-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn-consultar { width: 100%; padding: 14px; background: #1e3a8a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+        .btn-consultar:hover { background: #0d3b66; }
+        .btn-volver { display: inline-block; margin: 20px; padding: 10px 20px; background: #64748b; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        #resultadoReclamacion { margin-top: 25px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-contenido">
+            <div class="header-texto">
+                <h1>Seguimiento de Reclamo</h1>
+                <p class="subtitulo">I.E. 80829 José Octubre</p>
+            </div>
+            <div class="header-logo">
+                <div class="logo-circulo">
+                    <span>IE</span>
+                    <small>80829</small>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <a href="index.html" class="btn-volver">← Volver al inicio</a>
+
+    <main class="contenedor-principal">
+        <div class="card-consulta">
+            <h2>🔍 Consultar estado de mi reclamo</h2>
+            <p style="color: #666;">Ingrese su código de reclamación (Ej: REC-2026-0001) para ver el estado actual.</p>
+
+            <div class="form-group">
+                <label>Código de Reclamación *</label>
+                <input type="text" id="codigoReclamacion" placeholder="REC-2026-0001">
+            </div>
+
+            <button class="btn-consultar" id="btnConsultarReclamo">🔍 Consultar Reclamo</button>
+
+            <div id="resultadoReclamacion" style="display: none;"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 I.E. 80829 José Octubre - Libro de Reclamaciones Virtual</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

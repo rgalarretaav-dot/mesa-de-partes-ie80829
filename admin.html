@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Mesa de Partes</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .login-container { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        .login-container h2 { color: #1e3a8a; margin-bottom: 20px; }
+        .login-container input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .login-container button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .login-container button:hover { background: #1d4ed8; }
+        .btn-volver-inicio { display: inline-block; margin-top: 20px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: bold; padding: 8px 16px; border-radius: 6px; transition: all 0.2s; }
+        .btn-volver-inicio:hover { background: #f1f5f9; color: #2563eb; }
+        
+        .admin-panel { display: none; max-width: 1300px; margin: 0 auto; }
+        .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 10px; }
+        .header-admin h1 { color: #1e3a8a; margin: 0; font-size: 1.4rem; }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 12px 25px; background: white; border: 2px solid #e0e6ed; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b; font-size: 0.95rem; transition: all 0.2s; }
+        .tab-btn:hover { border-color: #2563eb; color: #2563eb; }
+        .tab-btn.activo { background: #2563eb; color: white; border-color: #2563eb; }
+        
+        .btn-salir { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-cambiar { background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-cambiar:hover { background: #475569; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.85rem; vertical-align: middle; }
+        th { background-color: #1e3a8a; color: white; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; }
+        tr:hover { background-color: #f8fafc; }
+        
+        select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .btn-pdf { background: #2563eb; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .btn-pdf:hover { background: #1d4ed8; }
+        .btn-accion { background: #16a34a; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .btn-accion:hover { background: #15803d; }
+        .btn-eliminar { background: #ef4444; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; margin-left: 5px; }
+        .btn-eliminar:hover { background: #dc2626; }
+        
+        .filtro { margin-bottom: 15px; padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 6px; }
+        .seccion { display: none; }
+        .seccion.activa { display: block; }
+
+        /* FILTROS DE HISTORIAL */
+        .filtros-historial { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+        .filtro-grupo { display: flex; flex-direction: column; gap: 5px; }
+        .filtro-grupo label { font-size: 0.8rem; font-weight: bold; color: #555; }
+        .filtro-grupo input, .filtro-grupo select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; font-family: inherit; }
+        .btn-aplicar { background: #2563eb; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
+        .btn-aplicar:hover { background: #1d4ed8; }
+        .btn-limpiar { background: #94a3b8; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
+        .btn-limpiar:hover { background: #64748b; }
+        
+        .accesos-rapidos { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .btn-rapido { background: #e0e7ff; color: #3730a3; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: all 0.2s; }
+        .btn-rapido:hover { background: #c7d2fe; }
+        .btn-rapido.activo { background: #2563eb; color: white; }
+        
+        .contador-resultados { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 20px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem; color: #1e40af; font-weight: bold; }
+        
+        .tipo-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; }
+        .tipo-badge.expediente { background: #dbeafe; color: #1e40af; }
+        .tipo-badge.reclamacion { background: #fef3c7; color: #92400e; }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; }
+        .modal-contenido { background: white; padding: 30px; border-radius: 12px; width: 550px; max-width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .modal-contenido h3 { margin-top: 0; color: #1e3a8a; }
+        .modal-contenido textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; resize: vertical; font-family: inherit; }
+        .modal-contenido input[type="text"], .modal-contenido input[type="email"], .modal-contenido input[type="password"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
+        .modal-contenido input[type="file"] { margin-bottom: 15px; }
+        .modal-botones { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-cancelar { background: #ccc; color: #333; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-guardar { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-eliminar-modal { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE LOGIN -->
+    <div class="login-container" id="loginScreen">
+        <h2>🔐 Acceso Administrativo</h2>
+        <p style="color: #666; font-size: 0.9rem;">Ingrese la contraseña para gestionar los expedientes.</p>
+        <input type="password" id="passwordInput" placeholder="Contraseña">
+        <button onclick="verificarPassword()">Ingresar</button>
+        <a href="index.html" class="btn-volver-inicio">← Volver al inicio</a>
+    </div>
+
+    <!-- PANEL DE ADMINISTRACIÓN -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="header-admin">
+            <h1>📋 Panel de Gestión</h1>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn-cambiar" onclick="abrirModalCambiarClave()">⚙️ Cambiar Contraseña</button>
+                <button class="btn-salir" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- PESTAÑAS -->
+        <div class="tabs">
+            <button class="tab-btn activo" onclick="cambiarTab('expedientes')">📄 Expedientes</button>
+            <button class="tab-btn" onclick="cambiarTab('reclamaciones')">📋 Reclamaciones</button>
+            <button class="tab-btn" onclick="cambiarTab('historial')">📅 Historial / Reportes</button>
+        </div>
+
+        <!-- SECCIÓN EXPEDIENTES -->
+        <div class="seccion activa" id="seccionExpedientes">
+            <input type="text" id="filtroBusqueda" class="filtro" placeholder="🔍 Buscar por expediente, DNI o nombre..." onkeyup="filtrarTabla('cuerpoTabla', this.value)">
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Expediente</th>
+                            <th>Solicitante</th>
+                            <th>DNI</th>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Asunto</th>
+                            <th>PDF</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECCIÓN RECLAMACIONES -->
+        <div class="seccion" id="seccionReclamaciones">
+            <input type="text" id="filtroReclamaciones" class="filtro" placeholder="🔍 Buscar por código, nombre o DNI..." onkeyup="filtrarTabla('cuerpoReclamaciones', this.value)">
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Consumidor</th>
+                            <th>Documento</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoReclamaciones"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECCIÓN HISTORIAL / REPORTES -->
+        <div class="seccion" id="seccionHistorial">
+            
+            <div class="accesos-rapidos">
+                <button class="btn-rapido" onclick="filtroRapido('hoy')">📆 Hoy</button>
+                <button class="btn-rapido" onclick="filtroRapido('semana')">📆 Esta semana</button>
+                <button class="btn-rapido" onclick="filtroRapido('mes')">📆 Este mes</button>
+                <button class="btn-rapido" onclick="filtroRapido('mes_anterior')">📆 Mes anterior</button>
+                <button class="btn-rapido" onclick="filtroRapido('año')">📆 Este año</button>
+                <button class="btn-rapido" onclick="filtroRapido('todo')">📆 Todo</button>
+            </div>
+
+            <div class="filtros-historial">
+                <div class="filtro-grupo">
+                    <label>Tipo:</label>
+                    <select id="filtroTipoHistorial">
+                        <option value="todos">Todos</option>
+                        <option value="expedientes">Solo Expedientes</option>
+                        <option value="reclamaciones">Solo Reclamaciones</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label>Desde:</label>
+                    <input type="date" id="filtroDesde">
+                </div>
+                <div class="filtro-grupo">
+                    <label>Hasta:</label>
+                    <input type="date" id="filtroHasta">
+                </div>
+                <div class="filtro-grupo">
+                    <label>Estado:</label>
+                    <select id="filtroEstadoHistorial">
+                        <option value="todos">Todos</option>
+                        <option value="RECIBIDO">RECIBIDO</option>
+                        <option value="EN REVISIÓN">EN REVISIÓN</option>
+                        <option value="DERIVADO">DERIVADO</option>
+                        <option value="ATENDIDO">ATENDIDO</option>
+                        <option value="PENDIENTE">PENDIENTE</option>
+                        <option value="EN_PROCESO">EN PROCESO</option>
+                    </select>
+                </div>
+                <button class="btn-aplicar" onclick="aplicarFiltroHistorial()">🔍 Aplicar Filtro</button>
+                <button class="btn-limpiar" onclick="limpiarFiltrosHistorial()">✖ Limpiar</button>
+            </div>
+
+            <div class="contador-resultados" id="contadorResultados">
+                Mostrando todos los registros...
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Solicitante</th>
+                            <th>Documento</th>
+                            <th>Asunto / Descripción</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoHistorial"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR ELIMINACIÓN -->
+    <div class="modal" id="modalEliminar">
+        <div class="modal-contenido">
+            <h3>🗑️ Confirmar Eliminación</h3>
+            <p style="font-size: 0.95rem; color: #555; line-height: 1.5;">
+                ¿Está seguro de que desea eliminar este registro?<br>
+                <strong style="color: #ef4444;">Esta acción no se puede deshacer.</strong>
+            </p>
+            <p id="textoEliminar" style="background: #f1f5f9; padding: 12px; border-radius: 6px; font-size: 0.85rem; color: #333; margin: 15px 0;"></p>
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
+                <button class="btn-eliminar-modal" onclick="confirmarEliminar()">🗑️ Sí, Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EXPEDIENTE ATENDIDO -->
+    <div class="modal" id="modalRespuesta">
+        <div class="modal-contenido">
+            <h3>✅ Finalizar Trámite</h3>
+            <p style="font-size: 0.9rem; color: #666;">Suba el documento de respuesta y escriba un mensaje para el ciudadano.</p>
+            <label style="font-weight: bold; font-size: 0.9rem;">Mensaje de respuesta:</label>
+            <textarea id="textoRespuesta" placeholder="Escriba aquí la respuesta para el ciudadano..."></textarea>
+            <label style="font-weight: bold; font-size: 0.9rem;">Archivo PDF de respuesta (opcional):</label>
+            <input type="file" id="archivoRespuesta" accept=".pdf">
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-guardar" onclick="guardarRespuesta()">Guardar y Enviar Correo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RECLAMO ATENDIDO -->
+    <div class="modal" id="modalReclamo">
+        <div class="modal-contenido">
+            <h3>📋 Responder Reclamo</h3>
+            <p style="font-size: 0.9rem; color: #666;">Escriba la respuesta oficial al consumidor y adjunte un archivo si es necesario.</p>
+            <label style="font-weight: bold; font-size: 0.9rem;">Respuesta al consumidor:</label>
+            <textarea id="textoReclamo" placeholder="Escriba aquí la respuesta oficial..."></textarea>
+            <label style="font-weight: bold; font-size: 0.9rem;">Archivo de respuesta (PDF o imagen, opcional):</label>
+            <input type="file" id="archivoReclamo" accept=".pdf,image/*" style="margin-bottom: 15px;">
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModalReclamo()">Cancelar</button>
+                <button class="btn-guardar" onclick="guardarReclamo()">Guardar y Enviar Correo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DERIVAR EXPEDIENTE -->
+    <div class="modal" id="modalDerivar">
+        <div class="modal-contenido">
+            <h3>📤 Derivar Expediente</h3>
+            <p style="font-size: 0.9rem; color: #666;">Indique a quién se deriva el expediente. Se enviará un correo con los datos y el PDF adjunto.</p>
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Área o persona a la que se deriva: *</label>
+            <input type="text" id="areaDerivacion" placeholder="Ej: Dirección Académica">
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Correo electrónico del destinatario: *</label>
+            <input type="email" id="correoDerivacion" placeholder="ejemplo@correo.com">
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Motivo u observación (opcional):</label>
+            <textarea id="motivoDerivacion" placeholder="Ej: Para su revisión y atención según corresponda..."></textarea>
+            
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModalDerivar()">Cancelar</button>
+                <button class="btn-guardar" onclick="guardarDerivacion()">Derivar y Enviar Correo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIAR CONTRASEÑA -->
+    <div class="modal" id="modalCambiarClave">
+        <div class="modal-contenido">
+            <h3>🔐 Cambiar Contraseña</h3>
+            <p style="font-size: 0.9rem; color: #666;">Ingrese su contraseña actual y la nueva contraseña.</p>
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Contraseña actual: *</label>
+            <input type="password" id="claveActual" placeholder="Contraseña actual">
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Nueva contraseña (mínimo 6 caracteres): *</label>
+            <input type="password" id="claveNueva" placeholder="Nueva contraseña">
+            
+            <label style="font-weight: bold; font-size: 0.9rem;">Confirmar nueva contraseña: *</label>
+            <input type="password" id="claveConfirmar" placeholder="Repita la nueva contraseña">
+            
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModalCambiarClave()">Cancelar</button>
+                <button class="btn-guardar" onclick="cambiarContrasena()">Cambiar Contraseña</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        const SUPABASE_URL = 'https://bjqglpoixyexekpiviti.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_eHgu4robG0UZBk5VqtaPug_V8gJnq4X';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const EMAILJS_SERVICE_ID = 'service_ps8ulbf';
+        const EMAILJS_TEMPLATE_SECRETARIA = 'template_85jctsk';
+        const EMAILJS_TEMPLATE_CIUDADANO = 'template_iws1hbe';
+        const EMAILJS_PUBLIC_KEY = 'ny8tDzLyRbs06EHLo';
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        let expedienteActual = null;
+        let reclamoActual = null;
+        let expedienteDerivar = null;
+        let eliminacionPendiente = null; // { tipo: 'expediente'|'reclamacion', id: '...' }
+
+        // ============================================
+        // LOGIN
+        // ============================================
+        async function verificarPassword() {
+            const input = document.getElementById("passwordInput").value;
+            if (!input) { alert("Ingrese la contraseña."); return; }
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('configuracion').select('clave_admin').eq('id', 1).single();
+                if (error) throw error;
+
+                if (input === data.clave_admin) {
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("adminPanel").style.display = "block";
+                    document.getElementById("passwordInput").value = "";
+                    cargarExpedientes();
+                    cargarReclamaciones();
+                } else {
+                    alert("❌ Contraseña incorrecta.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error al verificar contraseña.");
+            }
+        }
+
+        // ✅ CERRAR SESIÓN: Redirige al inicio (index.html)
+        function cerrarSesion() {
+            if (confirm("¿Está seguro de que desea cerrar sesión?\n\nSerá redirigido a la página principal.")) {
+                window.location.href = "index.html";
+            }
+        }
+
+        // ============================================
+        // PESTAÑAS
+        // ============================================
+        function cambiarTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+            document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+            
+            const tabs = document.querySelectorAll('.tab-btn');
+            if (tab === 'expedientes') {
+                tabs[0].classList.add('activo');
+                document.getElementById('seccionExpedientes').classList.add('activa');
+            } else if (tab === 'reclamaciones') {
+                tabs[1].classList.add('activo');
+                document.getElementById('seccionReclamaciones').classList.add('activa');
+            } else {
+                tabs[2].classList.add('activo');
+                document.getElementById('seccionHistorial').classList.add('activa');
+                cargarHistorial();
+            }
+        }
+
+        // ============================================
+        // CARGAR EXPEDIENTES
+        // ============================================
+        async function cargarExpedientes() {
+            const tbody = document.getElementById("cuerpoTabla");
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;">⏳ Cargando...</td></tr>`;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('expedientes').select('*')
+                    .order('fecha_recepcion', { ascending: false });
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;">No hay expedientes.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                data.forEach(exp => {
+                    const fecha = new Date(exp.fecha_recepcion).toLocaleString('es-PE', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td><strong>${exp.numero_expediente}</strong></td>
+                        <td>${exp.nombre}</td>
+                        <td>${exp.dni}</td>
+                        <td>${fecha}</td>
+                        <td>${exp.tipo_documento}</td>
+                        <td>${exp.asunto}</td>
+                        <td><a href="${exp.archivo_url}" target="_blank" class="btn-pdf">📎 Ver</a></td>
+                        <td>
+                            <select onchange="cambiarEstado('${exp.numero_expediente}', this.value, this)">
+                                <option value="RECIBIDO" ${exp.estado === 'RECIBIDO' ? 'selected' : ''}>RECIBIDO</option>
+                                <option value="EN REVISIÓN" ${exp.estado === 'EN REVISIÓN' ? 'selected' : ''}>EN REVISIÓN</option>
+                                <option value="DERIVADO" ${exp.estado === 'DERIVADO' ? 'selected' : ''}>DERIVADO</option>
+                                <option value="ATENDIDO" ${exp.estado === 'ATENDIDO' ? 'selected' : ''}>ATENDIDO</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn-eliminar" onclick="abrirModalEliminar('expediente', '${exp.numero_expediente}', 'Expediente ${exp.numero_expediente} - ${exp.nombre}')" title="Eliminar">🗑️</button>
+                        </td>`;
+                    tbody.appendChild(fila);
+                });
+            } catch (error) {
+                console.error("Error:", error);
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color: red;">Error al cargar.</td></tr>`;
+            }
+        }
+
+        // ============================================
+        // CARGAR RECLAMACIONES
+        // ============================================
+        async function cargarReclamaciones() {
+            const tbody = document.getElementById("cuerpoReclamaciones");
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">⏳ Cargando...</td></tr>`;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('reclamaciones').select('*')
+                    .order('fecha_reclamacion', { ascending: false });
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">No hay reclamaciones.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                data.forEach(rec => {
+                    const fecha = new Date(rec.fecha_reclamacion).toLocaleString('es-PE', {
+                        day: '2-digit', month: '2-digit', year: 'numeric'
+                    });
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td><strong>${rec.codigo_reclamacion}</strong></td>
+                        <td>${fecha}</td>
+                        <td>${rec.nombre_consumidor}</td>
+                        <td>${rec.tipo_documento} ${rec.numero_documento}</td>
+                        <td><span style="background: ${rec.tipo_reclamacion === 'RECLAMO' ? '#dbeafe' : '#fef3c7'}; color: ${rec.tipo_reclamacion === 'RECLAMO' ? '#1e40af' : '#92400e'}; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">${rec.tipo_reclamacion}</span></td>
+                        <td>${rec.descripcion_bien}</td>
+                        <td>
+                            <select onchange="cambiarEstadoReclamo('${rec.codigo_reclamacion}', this.value, this)">
+                                <option value="PENDIENTE" ${rec.estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
+                                <option value="EN_PROCESO" ${rec.estado === 'EN_PROCESO' ? 'selected' : ''}>EN PROCESO</option>
+                                <option value="ATENDIDO" ${rec.estado === 'ATENDIDO' ? 'selected' : ''}>ATENDIDO</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn-accion" onclick="abrirModalReclamo('${rec.codigo_reclamacion}')">Responder</button>
+                            <button class="btn-eliminar" onclick="abrirModalEliminar('reclamacion', '${rec.codigo_reclamacion}', 'Reclamo ${rec.codigo_reclamacion} - ${rec.nombre_consumidor}')" title="Eliminar">🗑️</button>
+                        </td>`;
+                    tbody.appendChild(fila);
+                });
+            } catch (error) {
+                console.error("Error:", error);
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color: red;">Error al cargar.</td></tr>`;
+            }
+        }
+
+        // ============================================
+        // HISTORIAL / REPORTES
+        // ============================================
+        async function cargarHistorial(filtroDesde = null, filtroHasta = null, tipoFiltro = 'todos', estadoFiltro = 'todos') {
+            const tbody = document.getElementById("cuerpoHistorial");
+            const contador = document.getElementById("contadorResultados");
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">⏳ Cargando historial...</td></tr>`;
+
+            try {
+                let expedientes = [];
+                let reclamaciones = [];
+
+                if (tipoFiltro === 'todos' || tipoFiltro === 'expedientes') {
+                    let query = supabaseClient.from('expedientes').select('*').order('fecha_recepcion', { ascending: false });
+                    if (filtroDesde) query = query.gte('fecha_recepcion', filtroDesde + 'T00:00:00');
+                    if (filtroHasta) query = query.lte('fecha_recepcion', filtroHasta + 'T23:59:59');
+                    if (estadoFiltro !== 'todos') query = query.eq('estado', estadoFiltro);
+                    const { data } = await query;
+                    expedientes = (data || []).map(e => ({ ...e, _tipo: 'expediente' }));
+                }
+
+                if (tipoFiltro === 'todos' || tipoFiltro === 'reclamaciones') {
+                    let query = supabaseClient.from('reclamaciones').select('*').order('fecha_reclamacion', { ascending: false });
+                    if (filtroDesde) query = query.gte('fecha_reclamacion', filtroDesde + 'T00:00:00');
+                    if (filtroHasta) query = query.lte('fecha_reclamacion', filtroHasta + 'T23:59:59');
+                    if (estadoFiltro !== 'todos') query = query.eq('estado', estadoFiltro);
+                    const { data } = await query;
+                    reclamaciones = (data || []).map(r => ({ ...r, _tipo: 'reclamacion' }));
+                }
+
+                const todos = [...expedientes, ...reclamaciones].sort((a, b) => {
+                    const fechaA = new Date(a.fecha_recepcion || a.fecha_reclamacion);
+                    const fechaB = new Date(b.fecha_recepcion || b.fecha_reclamacion);
+                    return fechaB - fechaA;
+                });
+
+                if (todos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 30px;">No hay registros con los filtros seleccionados.</td></tr>`;
+                    contador.textContent = "Mostrando 0 registros";
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                todos.forEach(item => {
+                    const esExp = item._tipo === 'expediente';
+                    const fecha = new Date(item.fecha_recepcion || item.fecha_reclamacion).toLocaleString('es-PE', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                    const codigo = esExp ? item.numero_expediente : item.codigo_reclamacion;
+                    const nombre = esExp ? item.nombre : item.nombre_consumidor;
+                    
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td><span class="tipo-badge ${esExp ? 'expediente' : 'reclamacion'}">${esExp ? '📄 Expediente' : '📋 Reclamación'}</span></td>
+                        <td><strong>${codigo}</strong></td>
+                        <td>${fecha}</td>
+                        <td>${nombre}</td>
+                        <td>${esExp ? item.dni : item.numero_documento}</td>
+                        <td>${esExp ? item.asunto : item.descripcion_bien}</td>
+                        <td><strong style="color: ${item.estado === 'ATENDIDO' ? '#16a34a' : (item.estado === 'RECIBIDO' || item.estado === 'PENDIENTE' ? '#f59e0b' : '#2563eb')};">${item.estado}</strong></td>
+                        <td>
+                            <button class="btn-eliminar" onclick="abrirModalEliminar('${esExp ? 'expediente' : 'reclamacion'}', '${codigo}', '${esExp ? 'Expediente' : 'Reclamo'} ${codigo} - ${nombre}')" title="Eliminar">🗑️</button>
+                        </td>`;
+                    tbody.appendChild(fila);
+                });
+
+                contador.textContent = `📊 Mostrando ${todos.length} registro${todos.length !== 1 ? 's' : ''}`;
+
+            } catch (error) {
+                console.error("Error:", error);
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color: red;">Error al cargar el historial.</td></tr>`;
+                contador.textContent = "Error al cargar";
+            }
+        }
+
+        function aplicarFiltroHistorial() {
+            const desde = document.getElementById('filtroDesde').value;
+            const hasta = document.getElementById('filtroHasta').value;
+            const tipo = document.getElementById('filtroTipoHistorial').value;
+            const estado = document.getElementById('filtroEstadoHistorial').value;
+            cargarHistorial(desde, hasta, tipo, estado);
+        }
+
+        function limpiarFiltrosHistorial() {
+            document.getElementById('filtroDesde').value = '';
+            document.getElementById('filtroHasta').value = '';
+            document.getElementById('filtroTipoHistorial').value = 'todos';
+            document.getElementById('filtroEstadoHistorial').value = 'todos';
+            document.querySelectorAll('.btn-rapido').forEach(b => b.classList.remove('activo'));
+            cargarHistorial();
+        }
+
+        function filtroRapido(tipo) {
+            const hoy = new Date();
+            let desde = null, hasta = null;
+
+            const formatear = (d) => {
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const dia = String(d.getDate()).padStart(2, '0');
+                return `${y}-${m}-${dia}`;
+            };
+
+            if (tipo === 'hoy') {
+                desde = formatear(hoy);
+                hasta = desde;
+            } else if (tipo === 'semana') {
+                const inicioSemana = new Date(hoy);
+                const diaSemana = hoy.getDay() === 0 ? 6 : hoy.getDay() - 1;
+                inicioSemana.setDate(hoy.getDate() - diaSemana);
+                desde = formatear(inicioSemana);
+                hasta = formatear(hoy);
+            } else if (tipo === 'mes') {
+                desde = formatear(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+                hasta = formatear(hoy);
+            } else if (tipo === 'mes_anterior') {
+                const inicioMesAnterior = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+                const finMesAnterior = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+                desde = formatear(inicioMesAnterior);
+                hasta = formatear(finMesAnterior);
+            } else if (tipo === 'año') {
+                desde = formatear(new Date(hoy.getFullYear(), 0, 1));
+                hasta = formatear(hoy);
+            }
+
+            document.getElementById('filtroDesde').value = desde || '';
+            document.getElementById('filtroHasta').value = hasta || '';
+            
+            document.querySelectorAll('.btn-rapido').forEach(b => b.classList.remove('activo'));
+            event.target.classList.add('activo');
+
+            aplicarFiltroHistorial();
+        }
+
+        // ============================================
+        // ELIMINAR REGISTROS
+        // ============================================
+        function abrirModalEliminar(tipo, id, descripcion) {
+            eliminacionPendiente = { tipo, id };
+            document.getElementById('textoEliminar').innerHTML = `<strong>${descripcion}</strong>`;
+            document.getElementById('modalEliminar').style.display = 'flex';
+        }
+
+        function cerrarModalEliminar() {
+            document.getElementById('modalEliminar').style.display = 'none';
+            eliminacionPendiente = null;
+        }
+
+        async function confirmarEliminar() {
+            if (!eliminacionPendiente) return;
+            const { tipo, id } = eliminacionPendiente;
+
+            try {
+                if (tipo === 'expediente') {
+                    const { error } = await supabaseClient
+                        .from('expedientes')
+                        .delete()
+                        .eq('numero_expediente', id);
+                    if (error) throw error;
+                } else {
+                    const { error } = await supabaseClient
+                        .from('reclamaciones')
+                        .delete()
+                        .eq('codigo_reclamacion', id);
+                    if (error) throw error;
+                }
+
+                document.getElementById('modalEliminar').style.display = 'none';
+                eliminacionPendiente = null;
+                alert("✅ Registro eliminado correctamente.");
+
+                // Recargar la vista activa
+                cargarExpedientes();
+                cargarReclamaciones();
+                // Si estamos en historial, también recargar
+                if (document.getElementById('seccionHistorial').classList.contains('activa')) {
+                    aplicarFiltroHistorial();
+                }
+            } catch (error) {
+                console.error("Error al eliminar:", error);
+                alert("❌ Error al eliminar: " + error.message);
+            }
+        }
+
+        // ============================================
+        // CAMBIAR ESTADO EXPEDIENTE
+        // ============================================
+        async function cambiarEstado(numeroExpediente, nuevoEstado, selectElement) {
+            if (nuevoEstado === 'ATENDIDO') {
+                expedienteActual = numeroExpediente;
+                document.getElementById('modalRespuesta').style.display = 'flex';
+                document.getElementById('textoRespuesta').value = '';
+                document.getElementById('archivoRespuesta').value = '';
+                return;
+            }
+            if (nuevoEstado === 'DERIVADO') {
+                expedienteDerivar = numeroExpediente;
+                document.getElementById('modalDerivar').style.display = 'flex';
+                document.getElementById('areaDerivacion').value = '';
+                document.getElementById('correoDerivacion').value = '';
+                document.getElementById('motivoDerivacion').value = '';
+                return;
+            }
+            try {
+                const { error } = await supabaseClient
+                    .from('expedientes').update({ estado: nuevoEstado })
+                    .eq('numero_expediente', numeroExpediente);
+                if (error) throw error;
+                cargarExpedientes();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ No se pudo actualizar.");
+                selectElement.value = "RECIBIDO";
+            }
+        }
+
+        // ============================================
+        // CAMBIAR ESTADO RECLAMO
+        // ============================================
+        async function cambiarEstadoReclamo(codigo, nuevoEstado, selectElement) {
+            if (nuevoEstado === 'ATENDIDO') {
+                reclamoActual = codigo;
+                document.getElementById('modalReclamo').style.display = 'flex';
+                document.getElementById('textoReclamo').value = '';
+                document.getElementById('archivoReclamo').value = '';
+                return;
+            }
+            try {
+                const { error } = await supabaseClient
+                    .from('reclamaciones').update({ estado: nuevoEstado })
+                    .eq('codigo_reclamacion', codigo);
+                if (error) throw error;
+                cargarReclamaciones();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ No se pudo actualizar.");
+                selectElement.value = "PENDIENTE";
+            }
+        }
+
+        // ============================================
+        // MODALES
+        // ============================================
+        function cerrarModal() {
+            document.getElementById('modalRespuesta').style.display = 'none';
+            expedienteActual = null;
+            cargarExpedientes();
+        }
+        function cerrarModalReclamo() {
+            document.getElementById('modalReclamo').style.display = 'none';
+            reclamoActual = null;
+            cargarReclamaciones();
+        }
+        function abrirModalReclamo(codigo) {
+            reclamoActual = codigo;
+            document.getElementById('modalReclamo').style.display = 'flex';
+            document.getElementById('textoReclamo').value = '';
+            document.getElementById('archivoReclamo').value = '';
+        }
+        function cerrarModalDerivar() {
+            document.getElementById('modalDerivar').style.display = 'none';
+            expedienteDerivar = null;
+            cargarExpedientes();
+        }
+
+        // ============================================
+        // GUARDAR RESPUESTA EXPEDIENTE
+        // ============================================
+        async function guardarRespuesta() {
+            if (!expedienteActual) return;
+            const texto = document.getElementById('textoRespuesta').value.trim();
+            const archivo = document.getElementById('archivoRespuesta').files[0];
+            if (!texto && !archivo) { alert("Escriba un mensaje o suba un archivo."); return; }
+
+            const btn = document.querySelector('#modalRespuesta .btn-guardar');
+            btn.innerHTML = '⏳ Guardando...';
+            btn.disabled = true;
+
+            try {
+                let archivoUrl = '';
+                if (archivo) {
+                    const nombreArchivo = `RESP_${expedienteActual}_${archivo.name.replace(/\s+/g, '_')}`;
+                    const { error: upErr } = await supabaseClient.storage.from('documentos').upload(nombreArchivo, archivo, { upsert: true });
+                    if (upErr) throw upErr;
+                    const { data: urlData } = supabaseClient.storage.from('documentos').getPublicUrl(nombreArchivo);
+                    archivoUrl = urlData.publicUrl;
+                }
+                const { error: updateError } = await supabaseClient
+                    .from('expedientes')
+                    .update({ estado: 'ATENDIDO', respuesta: texto, archivo_respuesta_url: archivoUrl })
+                    .eq('numero_expediente', expedienteActual);
+                if (updateError) throw updateError;
+
+                const { data: expData } = await supabaseClient
+                    .from('expedientes').select('*')
+                    .eq('numero_expediente', expedienteActual).single();
+
+                const fechaEnvio = new Date().toLocaleString('es-PE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                let bloqueExtra = '';
+                if (texto || archivoUrl) {
+                    bloqueExtra = `<div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0; border-radius: 6px;">
+                        <p style="margin: 0 0 5px 0; font-size: 14px; color: #166534; font-weight: bold;">📝 Respuesta de la Institución:</p>
+                        <p style="margin: 0 0 10px 0; font-size: 14px; color: #333;">${texto || 'Sin texto adicional.'}</p>
+                        ${archivoUrl ? `<a href="${archivoUrl}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin-top: 5px;">📎 Descargar PDF</a>` : ''}
+                    </div>`;
+                }
+
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CIUDADANO, {
+                    nombre: expData.nombre, correo: expData.correo,
+                    tipo: expData.tipo_documento, asunto: expData.asunto,
+                    expediente: expData.numero_expediente, fecha: fechaEnvio,
+                    asunto_correo: `✅ Expediente ${expData.numero_expediente} ATENDIDO - I.E. 80829`,
+                    icono: '✅', titulo: 'Trámite Atendido',
+                    mensaje: 'Su documento ha sido ATENDIDO. Vea la respuesta a continuación:',
+                    bloque_extra: bloqueExtra
+                });
+
+                document.getElementById('modalRespuesta').style.display = 'none';
+                expedienteActual = null;
+                alert("✅ Trámite ATENDIDO. Correo enviado.");
+                cargarExpedientes();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+            } finally {
+                btn.innerHTML = 'Guardar y Enviar Correo';
+                btn.disabled = false;
+            }
+        }
+
+        // ============================================
+        // GUARDAR RESPUESTA RECLAMO
+        // ============================================
+        async function guardarReclamo() {
+            if (!reclamoActual) return;
+            const texto = document.getElementById('textoReclamo').value.trim();
+            const archivo = document.getElementById('archivoReclamo').files[0];
+            if (!texto && !archivo) { alert("Escriba un mensaje o suba un archivo."); return; }
+
+            const btn = document.querySelector('#modalReclamo .btn-guardar');
+            btn.innerHTML = '⏳ Guardando...';
+            btn.disabled = true;
+
+            try {
+                let archivoUrl = '';
+                if (archivo) {
+                    const nombreLimpio = archivo.name.replace(/\s+/g, '_');
+                    const nombreArchivo = `RESP_${reclamoActual}_${nombreLimpio}`;
+                    const { error: upErr } = await supabaseClient.storage.from('documentos').upload(nombreArchivo, archivo, { upsert: true });
+                    if (upErr) throw upErr;
+                    const { data: urlData } = supabaseClient.storage.from('documentos').getPublicUrl(nombreArchivo);
+                    archivoUrl = urlData.publicUrl;
+                }
+                const { error: updateError } = await supabaseClient
+                    .from('reclamaciones')
+                    .update({ estado: 'ATENDIDO', observaciones_proveedor: texto, archivo_respuesta_url: archivoUrl })
+                    .eq('codigo_reclamacion', reclamoActual);
+                if (updateError) throw updateError;
+
+                const { data: recData } = await supabaseClient
+                    .from('reclamaciones').select('*')
+                    .eq('codigo_reclamacion', reclamoActual).single();
+
+                const fechaEnvio = new Date().toLocaleString('es-PE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                let bloqueExtra = `<div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0; border-radius: 6px;">
+                    <p style="margin: 0 0 5px 0; font-size: 14px; color: #166534; font-weight: bold;">📝 Respuesta Oficial:</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #333;">${texto || 'Sin texto adicional.'}</p>
+                    ${archivoUrl ? `<a href="${archivoUrl}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin-top: 5px;">📎 Descargar Documento de Respuesta</a>` : ''}
+                </div>`;
+
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CIUDADANO, {
+                    nombre: recData.nombre_consumidor, correo: recData.correo,
+                    tipo: recData.tipo_reclamacion, asunto: recData.descripcion_bien,
+                    expediente: recData.codigo_reclamacion, fecha: fechaEnvio,
+                    asunto_correo: `✅ Reclamo ${recData.codigo_reclamacion} ATENDIDO - I.E. 80829`,
+                    icono: '✅', titulo: 'Reclamo Atendido',
+                    mensaje: 'Su reclamo ha sido ATENDIDO. Vea la respuesta oficial a continuación:',
+                    bloque_extra: bloqueExtra
+                });
+
+                document.getElementById('modalReclamo').style.display = 'none';
+                reclamoActual = null;
+                alert("✅ Reclamo ATENDIDO. Correo enviado.");
+                cargarReclamaciones();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+            } finally {
+                btn.innerHTML = 'Guardar y Enviar Correo';
+                btn.disabled = false;
+            }
+        }
+
+        // ============================================
+        // GUARDAR DERIVACIÓN
+        // ============================================
+        async function guardarDerivacion() {
+            if (!expedienteDerivar) return;
+            const area = document.getElementById('areaDerivacion').value.trim();
+            const correoDestino = document.getElementById('correoDerivacion').value.trim();
+            const motivo = document.getElementById('motivoDerivacion').value.trim();
+
+            if (!area || !correoDestino) { alert("Complete el área y el correo del destinatario."); return; }
+
+            const btn = document.querySelector('#modalDerivar .btn-guardar');
+            btn.innerHTML = '⏳ Derivando...';
+            btn.disabled = true;
+
+            try {
+                const { error: updateError } = await supabaseClient
+                    .from('expedientes')
+                    .update({ estado: 'DERIVADO', derivado_a: correoDestino, area_derivada: area, motivo_derivacion: motivo })
+                    .eq('numero_expediente', expedienteDerivar);
+                if (updateError) throw updateError;
+
+                const { data: expData } = await supabaseClient
+                    .from('expedientes').select('*').eq('numero_expediente', expedienteDerivar).single();
+
+                const fechaEnvio = new Date().toLocaleString('es-PE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SECRETARIA, {
+                    nombre: expData.nombre, correo: expData.correo, dni: expData.dni,
+                    tipo: expData.tipo_documento, asunto: expData.asunto,
+                    expediente: expData.numero_expediente, pdf_url: expData.archivo_url,
+                    fecha: fechaEnvio, correo_destino: correoDestino,
+                    asunto_correo: `📤 EXPEDIENTE DERIVADO: ${expData.numero_expediente} - ${area}`
+                });
+
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CIUDADANO, {
+                    nombre: expData.nombre, correo: expData.correo,
+                    tipo: expData.tipo_documento, asunto: expData.asunto,
+                    expediente: expData.numero_expediente, fecha: fechaEnvio,
+                    asunto_correo: `📤 Expediente ${expData.numero_expediente} DERIVADO - I.E. 80829`,
+                    icono: '📤', titulo: 'Trámite Derivado',
+                    mensaje: 'Su trámite ha sido derivado al área correspondiente para su atención.',
+                    bloque_extra: `<div style="background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0; border-radius: 6px;">
+                        <p style="margin: 0 0 5px 0; font-size: 14px; color: #1e40af; font-weight: bold;">📤 Área derivada:</p>
+                        <p style="margin: 0 0 8px 0; font-size: 14px; color: #333;">${area}</p>
+                        ${motivo ? `<p style="margin: 0; font-size: 13px; color: #555;"><em>${motivo}</em></p>` : ''}
+                    </div>`
+                });
+
+                document.getElementById('modalDerivar').style.display = 'none';
+                expedienteDerivar = null;
+                alert("✅ Expediente DERIVADO. Correo enviado al área.");
+                cargarExpedientes();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+            } finally {
+                btn.innerHTML = 'Derivar y Enviar Correo';
+                btn.disabled = false;
+            }
+        }
+
+        // ============================================
+        // CAMBIAR CONTRASEÑA
+        // ============================================
+        function abrirModalCambiarClave() {
+            document.getElementById('modalCambiarClave').style.display = 'flex';
+            document.getElementById('claveActual').value = '';
+            document.getElementById('claveNueva').value = '';
+            document.getElementById('claveConfirmar').value = '';
+        }
+        function cerrarModalCambiarClave() {
+            document.getElementById('modalCambiarClave').style.display = 'none';
+        }
+        async function cambiarContrasena() {
+            const actual = document.getElementById('claveActual').value;
+            const nueva = document.getElementById('claveNueva').value;
+            const confirmar = document.getElementById('claveConfirmar').value;
+
+            if (!actual || !nueva || !confirmar) { alert("Complete todos los campos."); return; }
+            if (nueva.length < 6) { alert("La nueva contraseña debe tener al menos 6 caracteres."); return; }
+            if (nueva !== confirmar) { alert("Las nuevas contraseñas no coinciden."); return; }
+
+            const btn = document.querySelector('#modalCambiarClave .btn-guardar');
+            btn.innerHTML = '⏳ Cambiando...';
+            btn.disabled = true;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('configuracion').select('clave_admin').eq('id', 1).single();
+                if (error) throw error;
+                if (actual !== data.clave_admin) { alert("❌ La contraseña actual es incorrecta."); return; }
+
+                const { error: updateError } = await supabaseClient
+                    .from('configuracion')
+                    .update({ clave_admin: nueva, updated_at: new Date().toISOString() })
+                    .eq('id', 1);
+                if (updateError) throw updateError;
+
+                alert("✅ Contraseña cambiada exitosamente.");
+                cerrarModalCambiarClave();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+            } finally {
+                btn.innerHTML = 'Cambiar Contraseña';
+                btn.disabled = false;
+            }
+        }
+
+        // ============================================
+        // FILTRO GENÉRICO
+        // ============================================
+        function filtrarTabla(tbodyId, valor) {
+            const filtro = valor.toLowerCase();
+            document.querySelectorAll(`#${tbodyId} tr`).forEach(fila => {
+                fila.style.display = fila.innerText.toLowerCase().includes(filtro) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+</html>

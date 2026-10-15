@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Expediente - I.E. 80829</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header-simple">
+        <div class="header-simple-contenido">
+            <a href="index.html" class="btn-volver">← Volver al inicio</a>
+            <h1>Seguimiento de Expediente</h1>
+            <p>I.E. 80829 José Octubre</p>
+        </div>
+    </header>
+
+    <main class="contenedor-formulario">
+        <div class="formulario-caja">
+            <h2>Consultar estado de mi trámite</h2>
+            <p class="formulario-descripcion">Ingrese su número de expediente para ver el estado actual.</p>
+
+            <div class="campo">
+                <label for="numeroExpediente">Número de Expediente *</label>
+                <input type="text" id="numeroExpediente" placeholder="Ej: 2026-0001" required>
+            </div>
+
+            <button type="button" id="btnConsultar" class="btn-enviar">🔍 Consultar Estado</button>
+
+            <!-- Aquí se mostrarán los resultados -->
+            <div id="resultadoConsulta" style="margin-top: 30px; display: none;">
+                <!-- El contenido se llenará con JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 I.E. 80829 José Octubre - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Scripts: Supabase, EmailJS y tu script principal -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
