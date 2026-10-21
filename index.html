@@ -224,17 +224,24 @@
 
             try {
                 const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session) {
-                    btnLogin.style.display = 'none';
-                    btnLogout.style.display = 'block';
-                } else {
-                    btnLogin.style.display = 'inline-block'; 
-                    btnLogout.style.display = 'none';
+                
+                // ✅ NUEVA REGLA: Si NO hay sesión, lo expulsa al login inmediatamente
+                if (!session) {
+                    window.location.href = "login.html"; 
+                    return; // Detiene el código para que no muestre nada más
                 }
+
+                // Si sí hay sesión, mostramos el botón de cerrar sesión y ocultamos el de login
+                btnLogin.style.display = 'none';
+                btnLogout.style.display = 'block';
+
             } catch (error) {
-                btnLogin.style.display = 'inline-block';
+                console.error("Error al verificar sesión:", error);
+                window.location.href = "login.html"; // Por seguridad, si hay error, al login
+                return;
             }
 
+            // Lógica de la tarjeta de vacantes (esto solo se ejecuta si ya está logueado)
             const tarjeta = document.getElementById('tarjetaVacante');
             const btnVacante = document.getElementById('btnVacante');
             const badge = document.getElementById('badgeVacante');
