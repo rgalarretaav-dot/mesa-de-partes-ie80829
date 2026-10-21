@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Trámite - I.E. 80829</title>
+    <title>Registro de Trámite - I.E. 80829 José Olaya</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -14,7 +14,7 @@
         <div class="header-simple-contenido">
             <a href="index.html" class="btn-volver">← Volver al inicio</a>
             <h1>Mesa de Partes Virtual</h1>
-            <p>I.E. 80829 José Octubre</p>
+            <p>I.E. 80829 José Olaya</p>
         </div>
     </header>
 
@@ -70,9 +70,26 @@
                     <input type="number" id="folios" name="folios" min="1" placeholder="Opcional">
                 </div>
 
+                <!-- ✅ NUEVO CAMPO DE ARCHIVO MEJORADO -->
                 <div class="campo">
                     <label for="archivo">Suba su documento en PDF *</label>
-                    <input type="file" id="archivo" name="archivo" accept=".pdf" required>
+                    
+                    <!-- El input original se oculta -->
+                    <input type="file" id="archivo" name="archivo" accept=".pdf" required style="display: none;">
+                    
+                    <!-- Botón personalizado para subir -->
+                    <label for="archivo" style="display: inline-block; padding: 12px 20px; background: #eff6ff; color: #1e3a8a; border: 2px dashed #3b82f6; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; transition: all 0.3s; width: 100%;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+                        📂 Seleccionar Archivo PDF
+                    </label>
+
+                    <!-- Cuadro que muestra el archivo elegido -->
+                    <div id="infoArchivo" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 6px; align-items: center; justify-content: space-between;">
+                        <span id="nombreArchivo" style="font-size: 0.9rem; color: #166534; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                        <button type="button" onclick="borrarArchivo()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; font-weight: bold; margin-left: 10px;">
+                            ❌ Quitar
+                        </button>
+                    </div>
+                    
                     <small>Solo archivos PDF. Tamaño máximo: 5 MB.</small>
                 </div>
 
@@ -83,12 +100,139 @@
     </main>
 
     <footer class="footer">
-        <p>© 2026 I.E. 80829 José Octubre - Todos los derechos reservados</p>
+        <p>© 2026 I.E. 80829 José Olaya - Todos los derechos reservados</p>
     </footer>
 
     <!-- Scripts (Supabase y EmailJS) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="js/script.js"></script>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT PARA EL CONTROL DEL ARCHIVO         -->
+    <!-- ========================================== -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputArchivo = document.getElementById('archivo');
+            
+            if (inputArchivo) {
+                // Cuando el usuario elige un archivo
+                inputArchivo.addEventListener('change', function() {
+                    const infoArchivo = document.getElementById('infoArchivo');
+                    const nombreArchivo = document.getElementById('nombreArchivo');
+
+                    if (this.files && this.files.length > 0) {
+                        // Mostramos el nombre del archivo
+                        nombreArchivo.textContent = "✅ " + this.files[0].name;
+                        infoArchivo.style.display = 'flex';
+                    } else {
+                        infoArchivo.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Función para borrar el archivo si se equivocó
+        function borrarArchivo() {
+            const input = document.getElementById('archivo');
+            if(input) {
+                input.value = ''; // Vacía el archivo
+                document.getElementById('infoArchivo').style.display = 'none'; // Oculta el mensaje
+            }
+        }
+    </script>
+
+    <!-- ========================================== -->
+    <!-- CONTROL DE HORARIO DE ATENCIÓN (L-V 8am-4pm) -->
+    <!-- ========================================== -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lista de feriados en Perú (Formato YYYY-MM-DD)
+            const feriados = [
+                "2026-01-01", "2026-05-01", "2026-06-07", "2026-06-29", "2026-07-23", 
+                "2026-07-28", "2026-07-29", "2026-08-06", "2026-08-30", "2026-10-08", 
+                "2026-11-01", "2026-12-08", "2026-12-09", "2026-12-25",
+                "2027-01-01", "2027-05-01", "2027-06-07", "2027-06-29", "2027-07-23", 
+                "2027-07-28", "2027-07-29", "2027-08-06", "2027-08-30", "2027-10-08", 
+                "2027-11-01", "2027-12-08", "2027-12-09", "2027-12-25"
+            ];
+
+            function verificarHorario() {
+                const ahora = new Date();
+                const diaSemana = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ... 6 = Sábado
+                const hora = ahora.getHours();
+                const fechaString = ahora.toISOString().split('T')[0]; // Ej: "2026-10-20"
+
+                let mensajeError = "";
+
+                // 1. Verificar si es fin de semana
+                if (diaSemana === 0 || diaSemana === 6) {
+                    mensajeError = "Es fin de semana. Volvemos a atender el día Lunes a las 8:00 AM.";
+                }
+                // 2. Verificar si es feriado
+                else if (feriados.includes(fechaString)) {
+                    mensajeError = "Hoy es feriado nacional. Volvemos a atender el siguiente día hábil a las 8:00 AM.";
+                }
+                // 3. Verificar horario (8:00 AM a 4:00 PM)
+                else if (hora < 8 || hora >= 16) {
+                    mensajeError = "El horario de atención es de Lunes a Viernes, de 8:00 AM a 4:00 PM.";
+                }
+
+                // Si hay un mensaje de error, significa que está CERRADO
+                if (mensajeError !== "") {
+                    bloquearSistema(mensajeError);
+                }
+            }
+
+            function bloquearSistema(mensaje) {
+                // 1. Deshabilitar todos los inputs y botones
+                document.querySelectorAll('form, button, input, textarea, select, a').forEach(el => {
+                    if (!el.classList.contains('btn-volver') && !el.classList.contains('btn-admin-acceso')) {
+                        el.style.pointerEvents = 'none';
+                        el.style.opacity = '0.4';
+                    }
+                });
+
+                // 2. Crear el bloqueo visual
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+                    display: flex; flex-direction: column; justify-content: center; align-items: center;
+                    z-index: 999999; font-family: 'Poppins', sans-serif; text-align: center; padding: 20px;
+                    animation: fadeInOverlay 0.5s ease-out;
+                `;
+                
+                overlay.innerHTML = `
+                    <div style="background: white; padding: 50px 40px; border-radius: 24px; max-width: 500px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 3px solid #ef4444;">
+                        <div style="font-size: 5rem; margin-bottom: 20px; animation: floatIcon 3s ease-in-out infinite;">🔒</div>
+                        <h2 style="color: #1e3a8a; font-size: 2rem; margin-bottom: 15px; text-transform: uppercase; font-weight: 800;">Mesa de Partes Cerrada</h2>
+                        <p style="color: #475569; font-size: 1rem; line-height: 1.6; margin-bottom: 25px; font-weight: 500;">${mensaje}</p>
+                        
+                        <div style="background: #eff6ff; padding: 20px; border-radius: 12px; border-left: 5px solid #3b82f6; text-align: left;">
+                            <p style="margin: 0; color: #1e40af; font-weight: 800; font-size: 0.95rem; text-transform: uppercase;">Horario Oficial:</p>
+                            <p style="margin: 8px 0 0 0; color: #1e40af; font-size: 0.9rem; font-weight: 600;">📅 Lunes a Viernes</p>
+                            <p style="margin: 2px 0 0 0; color: #1e40af; font-size: 0.9rem; font-weight: 600;">🕗 8:00 AM - 4:00 PM</p>
+                        </div>
+                        
+                        <a href="index.html" style="display: inline-block; margin-top: 30px; background: #1e3a8a; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; pointer-events: auto !important; opacity: 1 !important; transition: all 0.3s;" onmouseover="this.style.background='#3b82f6'" onmouseout="this.style.background='#1e3a8a'">
+                            ← Volver a la Página Principal
+                        </a>
+                    </div>
+                `;
+
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+                    @keyframes popIn { 0% { transform: scale(0.8) translateY(30px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+                    @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+                `;
+                document.head.appendChild(style);
+                document.body.appendChild(overlay);
+            }
+
+            verificarHorario();
+        });
+    </script>
 </body>
 </html>

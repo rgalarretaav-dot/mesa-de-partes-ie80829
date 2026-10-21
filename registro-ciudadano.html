@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - I.E. 80829 José Olaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        /* FONDO */
+        body { 
+            background: linear-gradient(135deg, #4f46e5, #06b6d4, #ec4899, #3b82f6);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; padding: 30px 20px; position: relative; overflow-x: hidden;
+        }
+
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* BURBUJAS */
+        .bubbles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: 1; pointer-events: none; }
+        .bubble { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; backdrop-filter: blur(5px); animation: floatUp linear infinite; }
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 8s; }
+        .bubble:nth-child(2) { width: 40px; height: 40px; left: 30%; animation-duration: 12s; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 100px; height: 100px; left: 60%; animation-duration: 10s; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 85%; animation-duration: 14s; animation-delay: 1s; }
+        .bubble:nth-child(5) { width: 50px; height: 50px; left: 50%; animation-duration: 9s; animation-delay: 3s; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-1000px) scale(1.5); opacity: 0; } }
+
+        /* TARJETA */
+        .register-card { 
+            position: relative; z-index: 10; width: 100%; max-width: 700px; 
+            background: rgba(255, 255, 255, 0.95); border-radius: 24px; 
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(79, 70, 229, 0.3), inset 0 0 20px rgba(255,255,255,1); 
+            padding: 40px 50px; max-height: 95vh; overflow-y: auto;
+            animation: floatCard 6s ease-in-out infinite, cardEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes cardEntrance { from { opacity: 0; transform: translateY(100px) scale(0.8) rotateX(20deg); } to { opacity: 1; transform: translateY(0) scale(1) rotateX(0deg); } }
+        
+        .register-card::-webkit-scrollbar { width: 8px; }
+        .register-card::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .register-card::-webkit-scrollbar-thumb { background: linear-gradient(#4f46e5, #06b6d4); border-radius: 10px; }
+
+        h2 { background: linear-gradient(90deg, #4f46e5, #06b6d4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; font-size: 2rem; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        p.sub { color: #64748b; font-size: 0.9rem; margin-bottom: 30px; text-align: center; font-weight: 500; }
+        
+        .form-group, .checkbox-container { animation: slideUpFade 0.6s ease-out forwards; opacity: 0; }
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .checkbox-container { animation-delay: 0.5s; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; text-align: left; }
+        .form-group { flex: 1; text-align: left; margin-bottom: 15px; position: relative; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #1e3a8a; margin-bottom: 8px; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+        .form-group input, .form-group select { width: 100%; padding: 14px 15px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); outline: none; background: rgba(255,255,255,0.9); color: #1e293b; font-weight: 500; }
+        .form-group input:focus, .form-group select:focus { border-color: #06b6d4; background: #ffffff; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 0 5px rgba(6, 182, 212, 0.1); transform: translateY(-5px) scale(1.03); }
+
+        .checkbox-container { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #eff6ff, #e0e7ff); padding: 18px; border-radius: 12px; border: 2px solid #a5b4fc; cursor: pointer; margin-bottom: 20px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .checkbox-container:hover { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); transform: scale(1.02); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.15); }
+        .checkbox-container input[type="checkbox"] { width: 24px; height: 24px; cursor: pointer; accent-color: #4f46e5; }
+        .checkbox-container label { font-size: 0.95rem; font-weight: 700; color: #4f46e5; cursor: pointer; margin: 0; }
+
+        #areaHijos { display: none; margin-bottom: 20px; }
+        .selector-hijos { background: rgba(255,255,255,0.8); padding: 15px; border-radius: 12px; border: 2px dashed #818cf8; margin-bottom: 15px; animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .hijo-block { background: white; padding: 20px; border-radius: 12px; border-left: 6px solid #06b6d4; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 15px; animation: slideInLeft 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 80% { transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+        .hijo-block h4 { color: #0ea5e9; margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid #e0f2fe; padding-bottom: 5px; font-weight: 700; }
+
+        .btn-primary { width: 100%; background: linear-gradient(90deg, #4f46e5, #06b6d4, #3b82f6, #4f46e5); background-size: 300% 100%; color: white; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.3s ease; margin-top: 10px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4); animation: pulseBtn 2s infinite alternate, gradientMove 4s linear infinite; letter-spacing: 1px; display: block; opacity: 1; z-index: 50; }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        @keyframes pulseBtn { 0% { transform: scale(1); box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4); } 100% { transform: scale(1.03); box-shadow: 0 15px 35px rgba(79, 70, 229, 0.6); } }
+        .btn-primary:hover { animation-play-state: paused; transform: translateY(-5px) scale(1.05); box-shadow: 0 20px 40px rgba(6, 182, 212, 0.7); }
+        
+        .btn-link { display: block; text-align: center; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 0.9rem; transition: all 0.3s; font-weight: 600; }
+        .btn-link:hover { color: #4f46e5; transform: translateX(-5px) scale(1.05); }
+
+        /* ========================================= */
+        /* ✨ MAGIA ÉPICA: OVERLAY DE CARGA Y ÉXITO ✨ */
+        /* ========================================= */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 15, 30, 0.9);
+            backdrop-filter: blur(12px);
+            z-index: 9999; display: none; justify-content: center; align-items: center;
+            flex-direction: column; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .overlay.active { display: flex; opacity: 1; }
+
+        /* 1. SPINNER TRIPLE (Holograma) */
+        .loader-box { text-align: center; color: white; position: relative; z-index: 10000; }
+        .spinner-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 30px auto; }
+        
+        .ring { position: absolute; border-radius: 50%; border: 4px solid transparent; }
+        .ring-1 { width: 120px; height: 120px; border-top-color: #06b6d4; border-bottom-color: #06b6d4; animation: spin 1.5s linear infinite; box-shadow: 0 0 20px rgba(6,182,212,0.5); }
+        .ring-2 { width: 90px; height: 90px; top: 15px; left: 15px; border-left-color: #4f46e5; border-right-color: #4f46e5; animation: spinReverse 1.2s linear infinite; box-shadow: 0 0 15px rgba(79,70,229,0.6); }
+        .ring-3 { width: 60px; height: 60px; top: 30px; left: 30px; border-top-color: #ec4899; border-bottom-color: #ec4899; animation: spin 0.8s linear infinite; box-shadow: 0 0 15px rgba(236,72,153,0.6); }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+
+        .loader-box p { font-size: 1.3rem; font-weight: 700; letter-spacing: 2px; animation: pulseText 1.5s infinite; color: #e2e8f0; text-transform: uppercase; }
+        @keyframes pulseText { 0%, 100% { opacity: 1; text-shadow: 0 0 15px #06b6d4; } 50% { opacity: 0.6; text-shadow: none; } }
+
+        /* 2. CHECKMARK ANIMADO (Se dibuja solo) */
+        .success-box { display: none; text-align: center; color: white; position: relative; z-index: 10000; }
+        
+        .checkmark-svg { width: 100px; height: 100px; border-radius: 50%; display: block; stroke-width: 4; stroke: #fff; stroke-miterlimit: 10; margin: 0 auto 20px auto; box-shadow: 0 0 30px rgba(74, 222, 128, 0.5), inset 0 0 20px rgba(74, 222, 128, 0.3); background: rgba(74, 222, 128, 0.1); }
+        .checkmark-circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 4; stroke-miterlimit: 10; stroke: #4ade80; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark-check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards; stroke: #4ade80; }
+        
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+
+        .success-box h3 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: #4ade80; text-shadow: 0 0 20px rgba(74, 222, 128, 0.8); animation: popText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popText { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+        .success-box p { font-size: 1.1rem; color: #cbd5e1; font-weight: 500; }
+
+        /* 🎯 FIX DEL CONFETI: Z-INDEX ALTO Y POSITION FIXED */
+        .confetti-particle { 
+            position: fixed; 
+            width: 10px; height: 10px; 
+            background-color: #f00; 
+            z-index: 10000; /* ¡Ahora está por encima de la capa oscura! */
+            border-radius: 2px; 
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .register-card { padding: 30px 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .checkmark-svg { width: 80px; height: 80px; }
+            .success-box h3 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bubbles"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div></div>
+
+    <div class="register-card">
+        <h2>Crear cuenta</h2>
+        <p class="sub">Regístrate para hacer seguimiento a tus trámites.</p>
+
+        <form autocomplete="off" onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label>Nombre Completo del Apoderado</label>
+                <input type="text" id="regNombre" placeholder="Ej: Juan Pérez Gonzales" autocomplete="off">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>DNI</label>
+                    <input type="text" id="regDni" placeholder="8 dígitos" maxlength="8" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="regEmail" placeholder="ejemplo@correo.com" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="regPassword" placeholder="Mín. 6 caracteres" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Contraseña</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="Repite tu contraseña" autocomplete="new-password">
+                </div>
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="checkHijos" onchange="toggleHijos()">
+                <label for="checkHijos">¿Tiene hijos estudiando en el colegio?</label>
+            </div>
+
+            <div id="areaHijos">
+                <div class="selector-hijos">
+                    <label style="font-weight: 700; color: #4f46e5; font-size: 0.9rem;">¿Cuántos hijos tiene matriculados?</label>
+                    <input type="number" id="cantidadHijos" min="1" max="10" value="1" oninput="validarYCrearHijos()" style="width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 2px solid #cbd5e1; font-weight: 700; font-size: 1.1rem; outline: none; transition: all 0.3s; color: #4f46e5;" onfocus="this.style.borderColor='#06b6d4'; this.style.boxShadow='0 0 15px rgba(6, 182, 212, 0.3)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';">
+                </div>
+                <div id="contenedorHijos"></div>
+            </div>
+
+            <button type="button" class="btn-primary" onclick="registrarUsuario()">REGISTRARSE</button>
+        </form>
+        
+        <a href="login.html" class="btn-link">← Ya tengo una cuenta. Volver al Login</a>
+    </div>
+
+    <!-- OVERLAY ÉPICO -->
+    <div class="overlay" id="overlayAnimacion">
+        
+        <!-- 1. Carga Holográfica -->
+        <div class="loader-box" id="loaderBox">
+            <div class="spinner-wrapper">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-3"></div>
+            </div>
+            <p>Procesando datos...</p>
+        </div>
+
+        <!-- 2. Éxito Épico -->
+        <div class="success-box" id="successBox">
+            <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <h3>¡Registro Exitoso!</h3>
+            <p>Redirigiendo al login...</p>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://bjqglpoixyexekpiviti.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_eHgu4robG0UZBk5VqtaPug_V8gJnq4X';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function validarYCrearHijos() {
+            let cant = parseInt(document.getElementById('cantidadHijos').value);
+            if (isNaN(cant) || cant < 1) { cant = 1; document.getElementById('cantidadHijos').value = 1; }
+            if (cant > 10) { cant = 10; document.getElementById('cantidadHijos').value = 10; }
+            generarCamposHijos(cant);
+        }
+
+        function generarCamposHijos(cant) {
+            const contenedor = document.getElementById('contenedorHijos');
+            contenedor.innerHTML = ''; 
+            for (let i = 1; i <= cant; i++) {
+                const delay = i * 0.1; 
+                contenedor.innerHTML += `
+                    <div class="hijo-block" style="animation-delay: ${delay}s">
+                        <h4>🎓 Datos del Hijo ${i}</h4>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <input type="text" class="nombre-hijo" placeholder="Nombre completo del alumno" required autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <select class="nivel-hijo" required>
+                                    <option value="">Nivel Educativo...</option>
+                                    <option value="Inicial">Inicial</option>
+                                    <option value="Primaria">Primaria</option>
+                                    <option value="Secundaria">Secundaria</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <input type="text" class="grado-hijo" placeholder="Grado (Ej: 3ro A)" required autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleHijos() {
+            const check = document.getElementById('checkHijos').checked;
+            const area = document.getElementById('areaHijos');
+            if (check) { area.style.display = 'block'; document.getElementById('cantidadHijos').value = 1; generarCamposHijos(1); } 
+            else { area.style.display = 'none'; document.getElementById('contenedorHijos').innerHTML = ''; }
+        }
+
+        // ✨ EXPLOSIÓN DE CONFETI CORREGIDA ✨
+        function crearExplosionConfeti() {
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f', '#4ade80', '#3b82f6'];
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-particle');
+                confetti.style.left = centerX + 'px';
+                confetti.style.top = centerY + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Formas aleatorias (círculos o cuadrados)
+                if (Math.random() > 0.5) confetti.style.borderRadius = '50%';
+                
+                // Ángulo y fuerza de la explosión
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 100 + Math.random() * 300; // Qué tan lejos explotan
+                const destX = centerX + Math.cos(angle) * velocity;
+                const destY = centerY + Math.sin(angle) * velocity;
+
+                // Animación nativa
+                confetti.animate([
+                    { transform: `translate(0, 0) rotate(0deg) scale(1)`, opacity: 1 },
+                    { transform: `translate(${destX - centerX}px, ${destY - centerY}px) rotate(${Math.random() * 720}deg) scale(0.5)`, opacity: 0 }
+                ], {
+                    duration: 1500 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    fill: 'forwards'
+                });
+
+                document.body.appendChild(confetti);
+                setTimeout(() => { confetti.remove(); }, 3000);
+            }
+        }
+
+        async function registrarUsuario() {
+            const nombre = document.getElementById('regNombre').value.trim();
+            const dni = document.getElementById('regDni').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            const tieneHijos = document.getElementById('checkHijos').checked;
+            
+            if (!nombre || !dni || !email || !password || !passwordConfirm) { alert("Por favor, complete todos los campos obligatorios."); return; }
+            if (dni.length !== 8 || isNaN(dni)) { alert("El DNI debe tener exactamente 8 números."); return; }
+            if (password.length < 6) { alert("La contraseña debe tener al menos 6 caracteres."); return; }
+            if (password !== passwordConfirm) { alert("❌ Las contraseñas no coinciden. Por favor, verifíquelas."); return; }
+
+            const hijosData = [];
+            if (tieneHijos) {
+                const bloques = document.querySelectorAll('.hijo-block');
+                for (let bloque of bloques) {
+                    const nomHijo = bloque.querySelector('.nombre-hijo').value.trim();
+                    const nivHijo = bloque.querySelector('.nivel-hijo').value;
+                    const graHijo = bloque.querySelector('.grado-hijo').value.trim();
+                    if (!nomHijo || !nivHijo || !graHijo) { alert("Por favor, complete todos los datos de sus hijos o desmarque la casilla."); return; }
+                    hijosData.push({ nombre: nomHijo, nivel: nivHijo, grado: graHijo });
+                }
+            }
+
+            const overlay = document.getElementById('overlayAnimacion');
+            const loaderBox = document.getElementById('loaderBox');
+            const successBox = document.getElementById('successBox');
+            
+            // Mostrar animación de carga
+            overlay.classList.add('active');
+            loaderBox.style.display = 'block';
+            successBox.style.display = 'none';
+
+            // Usamos el DNI como correo oculto para evitar el envío de correos
+            const emailFalso = dni + "@gmail.com"; 
+
+            try {
+                const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
+                    email: emailFalso, 
+                    password: password 
+                });
+                
+                if (authError) throw authError;
+                const userId = authData.user.id;
+
+                // Guardamos el correo REAL en la tabla de perfiles
+                const { error: dbError } = await supabaseClient
+                    .from('perfiles')
+                    .insert([{ id: userId, dni: dni, nombre_completo: nombre, correo_real: email }]);
+
+                if (dbError) throw dbError;
+
+                if (hijosData.length > 0) {
+                    const insertHijos = hijosData.map(h => ({ perfil_id: userId, nombre: h.nombre, nivel: h.nivel, grado: h.grado }));
+                    const { error: hijosError } = await supabaseClient.from('hijos').insert(insertHijos);
+                    if (hijosError) throw hijosError;
+                }
+
+                // ✨ ÉXITO: Ocultar carga, mostrar checkmark y lanzar confeti
+                loaderBox.style.display = 'none';
+                successBox.style.display = 'block';
+                
+                // Esperar un micro-momento para que el checkmark empiece a dibujarse y explotar el confeti
+                setTimeout(() => {
+                    crearExplosionConfeti();
+                }, 200);
+
+                // Redirigir después de que el usuario disfrute la animación
+                setTimeout(() => { 
+                    window.location.href = "login.html"; 
+                }, 3500);
+                
+            } catch (error) {
+                console.error("Error:", error);
+                overlay.classList.remove('active');
+                if(error.message.includes("already registered") || error.message.includes("duplicate")) {
+                    alert("❌ Este DNI ya se encuentra registrado en el sistema.");
+                } else {
+                    alert("❌ Error al registrar: " + error.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

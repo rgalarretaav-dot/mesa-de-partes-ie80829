@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himno Institucional - I.E. 80829 José Olaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* FONDO VIVO Y ANIMADO */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #020617, #1e3a8a, #0284c7, #312e81, #020617);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Botón Volver */
+        .btn-volver {
+            position: fixed; top: 20px; left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #fff; text-decoration: none;
+            padding: 10px 20px; border-radius: 30px;
+            font-size: 0.9rem; font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s; z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-volver:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-5px) scale(1.05);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+        }
+
+        /* Contenedor principal */
+        .himno-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 100px 20px 80px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Encabezado Épico */
+        .header-himno {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeInDown 1.5s ease-out forwards;
+        }
+
+        .himno-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 800;
+            /* Degradado de Oro y Cian */
+            background: linear-gradient(to right, #fbbf24, #38bdf8, #fbbf24);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
+        }
+
+        .himno-subtitulo {
+            font-size: 1.3rem;
+            color: #38bdf8;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+        }
+
+        /* Tarjetas de las estrofas (Glassmorphism + Borde de Luz) */
+        .estrofa {
+            position: relative;
+            margin-bottom: 50px;
+            padding: 50px 40px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            
+            /* Animación de entrada 3D */
+            opacity: 0;
+            transform: translateY(60px) rotateX(-10deg);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+        }
+
+        .estrofa.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        /* El borde brillante animado alrededor de la tarjeta */
+        .estrofa::before {
+            content: '';
+            position: absolute;
+            inset: -2px; /* Grosor del borde */
+            border-radius: 26px;
+            background: linear-gradient(45deg, #38bdf8, #8b5cf6, #fbbf24, #38bdf8);
+            background-size: 300% 300%;
+            animation: borderGlow 4s linear infinite;
+            z-index: -1;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .estrofa:hover::before {
+            opacity: 1;
+            animation-duration: 1.5s; /* Se acelera la luz al pasar el mouse */
+        }
+
+        .estrofa:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2);
+        }
+
+        /* La letra del himno */
+        .estrofa p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            line-height: 2.2;
+            color: #f1f5f9;
+            font-style: italic;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        /* El Coro (Destacado con Oro y Cristal) */
+        .coro {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(49, 46, 129, 0.8));
+            padding: 60px 40px;
+        }
+        
+        .coro p {
+            font-weight: 800;
+            font-size: 1.8rem;
+            font-style: normal;
+            color: #ffffff;
+        }
+
+        /* Palabras resaltadas */
+        .resaltado-oro {
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+        }
+
+        .resaltado-cian {
+            color: #38bdf8;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+        }
+
+        /* Separador Estrella */
+        .separador {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.8s ease;
+        }
+        .separador.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .separador::before, .separador::after {
+            content: '';
+            height: 2px;
+            width: 100px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+        }
+        .separador span {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 10px #fbbf24);
+        }
+
+        /* Partículas flotantes (Notas musicales) */
+        .nota-musical {
+            position: fixed;
+            bottom: -50px;
+            color: rgba(56, 189, 248, 0.6);
+            font-size: 2rem;
+            z-index: 1;
+            animation: subirNota linear forwards;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+        }
+
+        /* Animaciones */
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes subirNota {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            .himno-titulo { font-size: 2.5rem; }
+            .himno-subtitulo { font-size: 1rem; letter-spacing: 3px; }
+            .estrofa { padding: 35px 20px; }
+            .estrofa p { font-size: 1.3rem; line-height: 1.9; }
+            .coro p { font-size: 1.5rem; }
+            .separador::before, .separador::after { width: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+
+    <main class="himno-container">
+        
+        <header class="header-himno">
+            <h1 class="himno-titulo">Himno a la I.E. 80829</h1>
+            <p class="himno-subtitulo">"José Olaya"</p>
+        </header>
+
+        <!-- CORO -->
+        <div class="estrofa coro">
+            <p>
+                ¡Olayistas legiones de honor!<br>
+                ¡La Esperanza que camina al progreso!<br>
+                El azul comparable a los cielos,<br>
+                se confunde a la distancia en el mar,<br>
+                los maestros despliegan desvelos<br>
+                al Perú le dedica su acción.<br><br>
+                <span class="resaltado-oro">¡JOSÉ OLAYA nos promueve a la acción!</span><br>
+                el estudio es constante proceso<br>
+                y las aulas derramen saber,<br>
+                para vernos por siempre triunfar.
+            </p>
+        </div>
+
+        <div class="separador"><span>✨</span></div>
+
+        <!-- PRIMERA ESTROFA -->
+        <div class="estrofa">
+            <p>
+                La figura del mártir Olaya<br>
+                Nos recuerda su diario trajín,<br>
+                si la <span class="resaltado-cian">PATRIA</span> requiere batalla<br>
+                las mil vidas daremos al fin.<br><br>
+                Sacrificio de gran Chorrillano,<br>
+                su modestia resiste prisión,<br>
+                enaltece tortura al peruano<br>
+                y su muerte rechaza traición.
+            </p>
+        </div>
+
+        <div class="separador"><span>✨</span></div>
+
+        <!-- SEGUNDA ESTROFA -->
+        <div class="estrofa">
+            <p>
+                Nuestro lema presenta valores,<br>
+                la <span class="resaltado-oro">Honradez</span> se traduce en verdad,<br>
+                el <span class="resaltado-oro">Trabajo</span> reduce temores<br>
+                dando ejemplo de Moralidad.<br><br>
+                Las conquistas del amplio futuro<br>
+                por designio de Dios Y su amor,<br>
+                serán logros de alcance seguro<br>
+                Que los años nos cubran de gloria.
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // 1. Animación de aparición al bajar (Scroll)
+        const elementosAnimados = document.querySelectorAll('.estrofa, .separador');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        elementosAnimados.forEach(el => observer.observe(el));
+
+        // 2. Generador de Notas Musicales Flotantes
+        function crearNota() {
+            const nota = document.createElement('div');
+            nota.classList.add('nota-musical');
+            
+            // Símbolos musicales
+            const simbolos = ['♪', '♫', '♬', '♩'];
+            nota.innerText = simbolos[Math.floor(Math.random() * simbolos.length)];
+            
+            // Posición y tamaño aleatorio
+            nota.style.left = `${Math.random() * 100}vw`;
+            nota.style.fontSize = `${Math.random() * 2 + 1.5}rem`;
+            
+            // Velocidad de subida
+            const duracion = Math.random() * 5 + 6; // Entre 6 y 11 segs
+            nota.style.animationDuration = `${duracion}s`;
+            
+            // Color aleatorio (Cian, Oro, Blanco)
+            const colores = ['#38bdf8', '#fbbf24', '#ffffff', '#818cf8'];
+            const colorElegido = colores[Math.floor(Math.random() * colores.length)];
+            nota.style.color = colorElegido;
+            nota.style.textShadow = `0 0 15px ${colorElegido}`;
+
+            document.body.appendChild(nota);
+
+            // Borrar la nota cuando termine su animación
+            setTimeout(() => {
+                nota.remove();
+            }, duracion * 1000);
+        }
+
+        // Crear notas constantemente
+        setInterval(crearNota, 600);
+    </script>
+</body>
+</html>

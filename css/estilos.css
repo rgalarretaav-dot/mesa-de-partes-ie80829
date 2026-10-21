@@ -145,7 +145,6 @@ body::before {
     overflow: hidden;
 }
 
-/* Barra de luz que cruza el header al cargar */
 .header::before {
     content: '';
     position: absolute;
@@ -236,7 +235,6 @@ body::before {
     position: relative;
 }
 
-/* Anillo animado alrededor del logo */
 .header-logo::before {
     content: '';
     position: absolute;
@@ -307,13 +305,11 @@ body::before {
     border: 2px solid transparent;
 }
 
-/* Entrada escalonada de las tarjetas */
 .tarjeta:nth-child(1) { animation-delay: 0.3s; }
 .tarjeta:nth-child(2) { animation-delay: 0.45s; }
 .tarjeta:nth-child(3) { animation-delay: 0.6s; }
 .tarjeta:nth-child(4) { animation-delay: 0.75s; }
 
-/* Barra superior animada */
 .tarjeta::before {
     content: '';
     position: absolute;
@@ -331,7 +327,6 @@ body::before {
     width: 100%;
 }
 
-/* Efecto de brillo que cruza la tarjeta */
 .tarjeta::after {
     content: '';
     position: absolute;
@@ -367,7 +362,6 @@ body::before {
     position: relative;
 }
 
-/* Círculo pulsante alrededor del icono */
 .tarjeta-icono::before {
     content: '';
     position: absolute;
@@ -435,7 +429,7 @@ body::before {
     color: #444;
 }
 
-/* ============ BOTONES ============ */
+/* ============ BOTONES GENERALES ============ */
 .btn-principal {
     background: linear-gradient(135deg, #0d3b66, #1a5fa8);
     background-size: 200% 200%;
@@ -477,6 +471,80 @@ body::before {
 
 .btn-principal:active {
     transform: translateY(-1px) scale(1.02);
+}
+
+/* ======================================================= */
+/* ============ BOTÓN ESTILO IRON MAN (ARC) ============== */
+/* ======================================================= */
+.btn-arc {
+    position: relative;
+    display: inline-block;
+    padding: 15px 45px;
+    border: none;
+    border-radius: 50px; /* Forma de cápsula */
+    background: #020617; /* Fondo oscuro */
+    color: white !important;
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    transition: all 0.3s ease;
+}
+
+/* El anillo de energía giratorio (Todos los colores) */
+.btn-arc::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        #06b6d4, /* Cian brillante */
+        #8b5cf6, /* Púrpura */
+        #ec4899, /* Rosa */
+        #fbbf24, /* Oro / Amarillo */
+        #06b6d4
+    );
+    animation: girarEnergia 3s linear infinite;
+    z-index: -2;
+}
+
+/* El núcleo oscuro interno para que parezca un borde */
+.btn-arc::after {
+    content: '';
+    position: absolute;
+    inset: 4px; /* Grosor del borde de energía */
+    background: linear-gradient(135deg, #1e1b4b, #0f172a);
+    border-radius: 46px;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el mouse */
+.btn-arc:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.8), 0 0 60px rgba(139, 92, 246, 0.6);
+    text-shadow: 0 0 10px #fff, 0 0 20px #06b6d4;
+}
+
+.btn-arc:hover::after {
+    background: linear-gradient(135deg, #1e3a8a, #0ea5e9); /* El centro se ilumina */
+}
+
+/* Efecto de clic */
+.btn-arc:active {
+    transform: scale(0.97);
+}
+
+@keyframes girarEnergia {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* ============ PIE DE PÁGINA ============ */

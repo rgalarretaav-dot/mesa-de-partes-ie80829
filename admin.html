@@ -3,91 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Mesa de Partes</title>
+    <title>Panel de Administración - I.E. 80829 José Olaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-        .login-container { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        .login-container h2 { color: #1e3a8a; margin-bottom: 20px; }
-        .login-container input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .login-container button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .login-container button:hover { background: #1d4ed8; }
-        .btn-volver-inicio { display: inline-block; margin-top: 20px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: bold; padding: 8px 16px; border-radius: 6px; transition: all 0.2s; }
-        .btn-volver-inicio:hover { background: #f1f5f9; color: #2563eb; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
-        .admin-panel { display: none; max-width: 1300px; margin: 0 auto; }
-        .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 10px; }
-        .header-admin h1 { color: #1e3a8a; margin: 0; font-size: 1.4rem; }
+        /* ============================================ */
+        /* FONDO OSCURO Y ORBES ANIMADOS                */
+        /* ============================================ */
+        body { 
+            background: linear-gradient(-45deg, #050505, #1e1b4b, #0f172a, #050505);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            padding: 20px; color: #333; min-height: 100vh;
+            display: flex; flex-direction: column; position: relative; overflow-x: hidden;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .orb { position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.6; pointer-events: none; }
+        .orb-1 { width: 500px; height: 500px; background: #06b6d4; top: -100px; left: -100px; animation: floatOrb 10s infinite alternate; }
+        .orb-2 { width: 400px; height: 400px; background: #ec4899; bottom: -100px; right: -100px; animation: floatOrb 12s infinite alternate-reverse; }
+        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 100px) scale(1.3); } }
+
+        /* ============================================ */
+        /* LOGIN (ESTILO CRISTAL)                       */
+        /* ============================================ */
+        .login-container { 
+            max-width: 420px; margin: auto; 
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            padding: 50px 40px; border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center; z-index: 10;
+            animation: loginEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes loginEntrance { from { opacity: 0; transform: translateY(50px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .login-container h2 { color: #ffffff; margin-bottom: 10px; font-weight: 800; font-size: 1.8rem; text-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
+        .login-container p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 30px; }
+        
+        .login-container input { 
+            width: 100%; padding: 16px; margin-bottom: 20px; 
+            border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; 
+            box-sizing: border-box; background: rgba(0,0,0,0.3); 
+            color: white; font-size: 1rem; font-weight: 600; outline: none; transition: all 0.3s;
+        }
+        .login-container input:focus { border-color: #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); background: rgba(0,0,0,0.5); }
+
+        .login-container button { 
+            width: 100%; padding: 16px; 
+            background: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6); 
+            background-size: 200% auto;
+            color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1.1rem; 
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4); transition: all 0.3s;
+            animation: shineBtn 3s linear infinite;
+        }
+        @keyframes shineBtn { to { background-position: 200% center; } }
+        .login-container button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 35px rgba(6, 182, 212, 0.6); }
+
+        .btn-volver-inicio { display: inline-block; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
+        .btn-volver-inicio:hover { color: #ffffff; }
+
+        /* ============================================ */
+        /* 🦸‍♀️ ANIMACIÓN DE SUPERHÉROE (BIENVENIDA)   */
+        /* ============================================ */
+        .hero-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #020617; z-index: 99999; display: none; 
+            justify-content: center; align-items: center; flex-direction: column;
+            overflow: hidden;
+        }
+        .hero-overlay.active { display: flex; }
+
+        .energy-circle {
+            position: absolute; width: 400px; height: 400px; border-radius: 50%;
+            border: 4px solid #06b6d4; box-shadow: 0 0 50px #06b6d4, inset 0 0 50px #06b6d4;
+            animation: expandCircle 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .energy-circle:nth-child(2) { border-color: #ec4899; box-shadow: 0 0 50px #ec4899, inset 0 0 50px #ec4899; animation-delay: 0.2s; width: 300px; height: 300px;}
+        .energy-circle:nth-child(3) { border-color: #8b5cf6; box-shadow: 0 0 50px #8b5cf6, inset 0 0 50px #8b5cf6; animation-delay: 0.4s; width: 200px; height: 200px;}
+        @keyframes expandCircle { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+
+        .hero-shield {
+            font-size: 8rem; z-index: 10; filter: drop-shadow(0 0 40px #06b6d4);
+            animation: shieldPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes shieldPop { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 70% { transform: scale(1.2) rotate(10deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+        .hero-text {
+            font-size: 3.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px;
+            margin-top: 20px; text-align: center; z-index: 10;
+            background: linear-gradient(90deg, #06b6d4, #ec4899, #fbbf24, #06b6d4);
+            background-size: 300% auto; 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: transparent; 
+            animation: textSlide 0.8s ease-out 0.4s forwards, shineText 2s linear infinite;
+            opacity: 0; transform: translateY(30px);
+        }
+        @keyframes textSlide { to { opacity: 1; transform: translateY(0); } }
+        @keyframes shineText { to { background-position: 300% center; } }
+
+        .spark { position: absolute; width: 8px; height: 8px; border-radius: 50%; top: 50%; left: 50%; z-index: 5; animation: sparkExplode 1.5s ease-out forwards; }
+        @keyframes sparkExplode { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+
+        .white-flash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; z-index: 999999; opacity: 0; pointer-events: none; }
+        .white-flash.active { animation: flashAnim 0.8s ease-in forwards; }
+        @keyframes flashAnim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 1; } }
+
+        /* ============================================ */
+        /* PANEL DE ADMINISTRACIÓN                      */
+        /* ============================================ */
+        .admin-panel { 
+            display: none; max-width: 1300px; margin: 0 auto; width: 100%; z-index: 10;
+            background: #f8fafc; padding: 20px; border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(255,255,255,0.8);
+            animation: panelSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes panelSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 10px; border-left: 6px solid #06b6d4; }
+        
+        .header-admin h1 { 
+            margin: 0; font-size: 1.5rem; font-weight: 900; 
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6); 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            color: transparent; 
+        }
         
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 25px; background: white; border: 2px solid #e0e6ed; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b; font-size: 0.95rem; transition: all 0.2s; }
-        .tab-btn:hover { border-color: #2563eb; color: #2563eb; }
-        .tab-btn.activo { background: #2563eb; color: white; border-color: #2563eb; }
         
-        .btn-salir { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-cambiar { background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-cambiar:hover { background: #475569; }
+        .tab-btn { padding: 12px 25px; background: white; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: 700; color: #64748b; font-size: 0.95rem; transition: all 0.3s; }
+        .tab-btn:hover { border-color: #06b6d4; color: #06b6d4; transform: translateY(-2px); }
+        .tab-btn.activo { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; border-color: transparent; box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4); }
         
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.85rem; vertical-align: middle; }
-        th { background-color: #1e3a8a; color: white; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; }
-        tr:hover { background-color: #f8fafc; }
+        .btn-salir { background: #f43f5e; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-salir:hover { background: #e11d48; transform: scale(1.05); box-shadow: 0 5px 15px rgba(244, 63, 94, 0.4); }
+        .btn-cambiar { background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-cambiar:hover { background: #7c3aed; transform: scale(1.05); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); }
         
-        select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .btn-pdf { background: #2563eb; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
-        .btn-pdf:hover { background: #1d4ed8; }
-        .btn-accion { background: #16a34a; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        .btn-accion:hover { background: #15803d; }
-        .btn-eliminar { background: #ef4444; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; margin-left: 5px; }
-        .btn-eliminar:hover { background: #dc2626; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; vertical-align: middle; }
         
-        .filtro { margin-bottom: 15px; padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 6px; }
+        th { background: linear-gradient(135deg, #0ea5e9, #8b5cf6); color: white; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; border-bottom: none; }
+        tr:hover { background-color: #f0fdfa; }
+        
+        select { padding: 8px; border-radius: 6px; border: 2px solid #e2e8f0; font-weight: bold; cursor: pointer; font-size: 0.8rem; background: #f8fafc; outline: none; transition: all 0.3s; }
+        select:focus { border-color: #06b6d4; }
+        
+        .btn-pdf { background: #06b6d4; color: white; padding: 6px 12px; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: bold; transition: all 0.3s; display: inline-block; }
+        .btn-pdf:hover { background: #0891b2; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3); }
+        
+        .btn-accion { background: #10b981; color: white; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: all 0.3s; }
+        .btn-accion:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+        
+        .btn-eliminar { background: #f43f5e; color: white; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8rem; margin-left: 5px; transition: all 0.3s; }
+        .btn-eliminar:hover { background: #e11d48; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3); }
+        
+        .filtro { margin-bottom: 15px; padding: 12px 15px; width: 350px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; outline: none; transition: all 0.3s; }
+        .filtro:focus { border-color: #06b6d4; box-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
+        
         .seccion { display: none; }
-        .seccion.activa { display: block; }
+        .seccion.activa { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* FILTROS DE HISTORIAL */
-        .filtros-historial { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+        .filtros-historial { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; border-top: 4px solid #8b5cf6; }
         .filtro-grupo { display: flex; flex-direction: column; gap: 5px; }
         .filtro-grupo label { font-size: 0.8rem; font-weight: bold; color: #555; }
-        .filtro-grupo input, .filtro-grupo select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; font-family: inherit; }
-        .btn-aplicar { background: #2563eb; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
-        .btn-aplicar:hover { background: #1d4ed8; }
-        .btn-limpiar { background: #94a3b8; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
-        .btn-limpiar:hover { background: #64748b; }
+        .filtro-grupo input, .filtro-grupo select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; font-family: inherit; outline: none; transition: border 0.3s; }
+        .filtro-grupo input:focus, .filtro-grupo select:focus { border-color: #8b5cf6; }
+        
+        .btn-aplicar { background: #8b5cf6; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: all 0.3s; }
+        .btn-aplicar:hover { background: #7c3aed; transform: scale(1.05); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3); }
+        
+        .btn-limpiar { background: #94a3b8; color: white; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: all 0.3s; }
+        .btn-limpiar:hover { background: #64748b; transform: scale(1.05); }
         
         .accesos-rapidos { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-        .btn-rapido { background: #e0e7ff; color: #3730a3; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: all 0.2s; }
-        .btn-rapido:hover { background: #c7d2fe; }
-        .btn-rapido.activo { background: #2563eb; color: white; }
+        .btn-rapido { background: #e0f2fe; color: #0369a1; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: all 0.2s; }
+        .btn-rapido:hover { background: #bae6fd; transform: translateY(-2px); }
+        .btn-rapido.activo { background: #06b6d4; color: white; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3); }
         
-        .contador-resultados { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 20px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem; color: #1e40af; font-weight: bold; }
+        .contador-resultados { background: #f3e8ff; border-left: 4px solid #8b5cf6; padding: 12px 20px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem; color: #6b21a8; font-weight: bold; }
         
-        .tipo-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; }
-        .tipo-badge.expediente { background: #dbeafe; color: #1e40af; }
-        .tipo-badge.reclamacion { background: #fef3c7; color: #92400e; }
+        .tipo-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; }
+        .tipo-badge.expediente { background: #cffafe; color: #0e7490; }
+        .tipo-badge.reclamacion { background: #fce7f3; color: #be185d; }
 
-        /* MODAL */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; }
-        .modal-contenido { background: white; padding: 30px; border-radius: 12px; width: 550px; max-width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-        .modal-contenido h3 { margin-top: 0; color: #1e3a8a; }
-        .modal-contenido textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; resize: vertical; font-family: inherit; }
-        .modal-contenido input[type="text"], .modal-contenido input[type="email"], .modal-contenido input[type="password"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
+        /* MODALES */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; }
+        .modal-contenido { background: white; padding: 35px; border-radius: 16px; width: 550px; max-width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 5px solid #06b6d4; }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .modal-contenido h3 { margin-top: 0; color: #0f172a; font-weight: 800; }
+        
+        .modal-contenido textarea { width: 100%; height: 120px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; resize: vertical; font-family: inherit; outline: none; transition: border 0.3s; }
+        .modal-contenido textarea:focus { border-color: #06b6d4; }
+        
+        .modal-contenido input[type="text"], .modal-contenido input[type="email"], .modal-contenido input[type="password"] { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; outline: none; transition: border 0.3s; }
+        .modal-contenido input[type="text"]:focus, .modal-contenido input[type="email"]:focus, .modal-contenido input[type="password"]:focus { border-color: #06b6d4; }
+        
         .modal-contenido input[type="file"] { margin-bottom: 15px; }
-        .modal-botones { display: flex; justify-content: flex-end; gap: 10px; }
-        .btn-cancelar { background: #ccc; color: #333; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-guardar { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-eliminar-modal { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .modal-botones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+        
+        .btn-cancelar { background: #e2e8f0; color: #475569; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-cancelar:hover { background: #cbd5e1; }
+        
+        .btn-guardar { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
+        .btn-guardar:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); }
+        
+        .btn-eliminar-modal { background: #f43f5e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-eliminar-modal:hover { background: #e11d48; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
+    <!-- LUCES DE FONDO -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
     <!-- PANTALLA DE LOGIN -->
     <div class="login-container" id="loginScreen">
         <h2>🔐 Acceso Administrativo</h2>
-        <p style="color: #666; font-size: 0.9rem;">Ingrese la contraseña para gestionar los expedientes.</p>
+        <p>Ingrese la contraseña para gestionar los expedientes.</p>
         <input type="password" id="passwordInput" placeholder="Contraseña">
         <button onclick="verificarPassword()">Ingresar</button>
         <a href="index.html" class="btn-volver-inicio">← Volver al inicio</a>
     </div>
+
+    <!-- 🦸‍♀️ OVERLAY DE SUPERHÉROE (BIENVENIDA) -->
+    <div class="hero-overlay" id="heroOverlay">
+        <div class="energy-circle"></div>
+        <div class="energy-circle"></div>
+        <div class="energy-circle"></div>
+        <div class="hero-shield">🛡️</div>
+        <div class="hero-text">¡BIENVENIDA,<br>SECRETARIA!</div>
+    </div>
+
+    <!-- FLASH BLANCO FINAL -->
+    <div class="white-flash" id="whiteFlash"></div>
 
     <!-- PANEL DE ADMINISTRACIÓN -->
     <div class="admin-panel" id="adminPanel">
@@ -103,6 +260,7 @@
         <div class="tabs">
             <button class="tab-btn activo" onclick="cambiarTab('expedientes')">📄 Expedientes</button>
             <button class="tab-btn" onclick="cambiarTab('reclamaciones')">📋 Reclamaciones</button>
+            <button class="tab-btn" onclick="cambiarTab('usuarios')">👥 Usuarios Registrados</button>
             <button class="tab-btn" onclick="cambiarTab('historial')">📅 Historial / Reportes</button>
         </div>
 
@@ -151,9 +309,28 @@
             </div>
         </div>
 
+        <!-- ✅ SECCIÓN USUARIOS -->
+        <div class="seccion" id="seccionUsuarios">
+            <input type="text" id="filtroUsuarios" class="filtro" placeholder="🔍 Buscar usuario por nombre o DNI..." onkeyup="filtrarTabla('cuerpoUsuarios', this.value)">
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre Completo</th>
+                            <th>DNI</th>
+                            <th>Correo Electrónico</th>
+                            <th>Fecha de Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoUsuarios"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- SECCIÓN HISTORIAL / REPORTES -->
         <div class="seccion" id="seccionHistorial">
-            
             <div class="accesos-rapidos">
                 <button class="btn-rapido" onclick="filtroRapido('hoy')">📆 Hoy</button>
                 <button class="btn-rapido" onclick="filtroRapido('semana')">📆 Esta semana</button>
@@ -187,6 +364,7 @@
                         <option value="RECIBIDO">RECIBIDO</option>
                         <option value="EN REVISIÓN">EN REVISIÓN</option>
                         <option value="DERIVADO">DERIVADO</option>
+                        <option value="OBSERVADO">OBSERVADO</option>
                         <option value="ATENDIDO">ATENDIDO</option>
                         <option value="PENDIENTE">PENDIENTE</option>
                         <option value="EN_PROCESO">EN PROCESO</option>
@@ -196,9 +374,7 @@
                 <button class="btn-limpiar" onclick="limpiarFiltrosHistorial()">✖ Limpiar</button>
             </div>
 
-            <div class="contador-resultados" id="contadorResultados">
-                Mostrando todos los registros...
-            </div>
+            <div class="contador-resultados" id="contadorResultados">Mostrando todos los registros...</div>
 
             <div style="overflow-x: auto;">
                 <table>
@@ -220,23 +396,16 @@
         </div>
     </div>
 
-    <!-- MODAL CONFIRMAR ELIMINACIÓN -->
+    <!-- MODALES -->
     <div class="modal" id="modalEliminar">
         <div class="modal-contenido">
             <h3>🗑️ Confirmar Eliminación</h3>
-            <p style="font-size: 0.95rem; color: #555; line-height: 1.5;">
-                ¿Está seguro de que desea eliminar este registro?<br>
-                <strong style="color: #ef4444;">Esta acción no se puede deshacer.</strong>
-            </p>
+            <p style="font-size: 0.95rem; color: #555; line-height: 1.5;">¿Está seguro de que desea eliminar este registro?<br><strong style="color: #f43f5e;">Esta acción no se puede deshacer.</strong></p>
             <p id="textoEliminar" style="background: #f1f5f9; padding: 12px; border-radius: 6px; font-size: 0.85rem; color: #333; margin: 15px 0;"></p>
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
-                <button class="btn-eliminar-modal" onclick="confirmarEliminar()">🗑️ Sí, Eliminar</button>
-            </div>
+            <div class="modal-botones"><button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button><button class="btn-eliminar-modal" onclick="confirmarEliminar()">🗑️ Sí, Eliminar</button></div>
         </div>
     </div>
 
-    <!-- MODAL EXPEDIENTE ATENDIDO -->
     <div class="modal" id="modalRespuesta">
         <div class="modal-contenido">
             <h3>✅ Finalizar Trámite</h3>
@@ -245,14 +414,10 @@
             <textarea id="textoRespuesta" placeholder="Escriba aquí la respuesta para el ciudadano..."></textarea>
             <label style="font-weight: bold; font-size: 0.9rem;">Archivo PDF de respuesta (opcional):</label>
             <input type="file" id="archivoRespuesta" accept=".pdf">
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn-guardar" onclick="guardarRespuesta()">Guardar y Enviar Correo</button>
-            </div>
+            <div class="modal-botones"><button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button><button class="btn-guardar" onclick="guardarRespuesta()">Guardar y Enviar Correo</button></div>
         </div>
     </div>
 
-    <!-- MODAL RECLAMO ATENDIDO -->
     <div class="modal" id="modalReclamo">
         <div class="modal-contenido">
             <h3>📋 Responder Reclamo</h3>
@@ -261,54 +426,35 @@
             <textarea id="textoReclamo" placeholder="Escriba aquí la respuesta oficial..."></textarea>
             <label style="font-weight: bold; font-size: 0.9rem;">Archivo de respuesta (PDF o imagen, opcional):</label>
             <input type="file" id="archivoReclamo" accept=".pdf,image/*" style="margin-bottom: 15px;">
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModalReclamo()">Cancelar</button>
-                <button class="btn-guardar" onclick="guardarReclamo()">Guardar y Enviar Correo</button>
-            </div>
+            <div class="modal-botones"><button class="btn-cancelar" onclick="cerrarModalReclamo()">Cancelar</button><button class="btn-guardar" onclick="guardarReclamo()">Guardar y Enviar Correo</button></div>
         </div>
     </div>
 
-    <!-- MODAL DERIVAR EXPEDIENTE -->
     <div class="modal" id="modalDerivar">
         <div class="modal-contenido">
             <h3>📤 Derivar Expediente</h3>
             <p style="font-size: 0.9rem; color: #666;">Indique a quién se deriva el expediente. Se enviará un correo con los datos y el PDF adjunto.</p>
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Área o persona a la que se deriva: *</label>
             <input type="text" id="areaDerivacion" placeholder="Ej: Dirección Académica">
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Correo electrónico del destinatario: *</label>
             <input type="email" id="correoDerivacion" placeholder="ejemplo@correo.com">
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Motivo u observación (opcional):</label>
             <textarea id="motivoDerivacion" placeholder="Ej: Para su revisión y atención según corresponda..."></textarea>
-            
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModalDerivar()">Cancelar</button>
-                <button class="btn-guardar" onclick="guardarDerivacion()">Derivar y Enviar Correo</button>
-            </div>
+            <div class="modal-botones"><button class="btn-cancelar" onclick="cerrarModalDerivar()">Cancelar</button><button class="btn-guardar" onclick="guardarDerivacion()">Derivar y Enviar Correo</button></div>
         </div>
     </div>
 
-    <!-- MODAL CAMBIAR CONTRASEÑA -->
     <div class="modal" id="modalCambiarClave">
         <div class="modal-contenido">
             <h3>🔐 Cambiar Contraseña</h3>
             <p style="font-size: 0.9rem; color: #666;">Ingrese su contraseña actual y la nueva contraseña.</p>
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Contraseña actual: *</label>
             <input type="password" id="claveActual" placeholder="Contraseña actual">
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Nueva contraseña (mínimo 6 caracteres): *</label>
             <input type="password" id="claveNueva" placeholder="Nueva contraseña">
-            
             <label style="font-weight: bold; font-size: 0.9rem;">Confirmar nueva contraseña: *</label>
             <input type="password" id="claveConfirmar" placeholder="Repita la nueva contraseña">
-            
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModalCambiarClave()">Cancelar</button>
-                <button class="btn-guardar" onclick="cambiarContrasena()">Cambiar Contraseña</button>
-            </div>
+            <div class="modal-botones"><button class="btn-cancelar" onclick="cerrarModalCambiarClave()">Cancelar</button><button class="btn-guardar" onclick="cambiarContrasena()">Cambiar Contraseña</button></div>
         </div>
     </div>
 
@@ -331,10 +477,10 @@
         let expedienteActual = null;
         let reclamoActual = null;
         let expedienteDerivar = null;
-        let eliminacionPendiente = null; // { tipo: 'expediente'|'reclamacion', id: '...' }
+        let eliminacionPendiente = null;
 
         // ============================================
-        // LOGIN
+        // LOGIN Y ANIMACIÓN DE SUPERHÉROE
         // ============================================
         async function verificarPassword() {
             const input = document.getElementById("passwordInput").value;
@@ -346,11 +492,7 @@
                 if (error) throw error;
 
                 if (input === data.clave_admin) {
-                    document.getElementById("loginScreen").style.display = "none";
-                    document.getElementById("adminPanel").style.display = "block";
-                    document.getElementById("passwordInput").value = "";
-                    cargarExpedientes();
-                    cargarReclamaciones();
+                    iniciarAnimacionHeroe();
                 } else {
                     alert("❌ Contraseña incorrecta.");
                 }
@@ -360,7 +502,42 @@
             }
         }
 
-        // ✅ CERRAR SESIÓN: Redirige al inicio (index.html)
+        function iniciarAnimacionHeroe() {
+            const overlay = document.getElementById('heroOverlay');
+            const loginScreen = document.getElementById('loginScreen');
+            const adminPanel = document.getElementById('adminPanel');
+            const whiteFlash = document.getElementById('whiteFlash');
+
+            loginScreen.style.display = "none";
+            overlay.classList.add('active');
+
+            const colors = ['#06b6d4', '#ec4899', '#fbbf24', '#22c55e', '#8b5cf6'];
+            for (let i = 0; i < 80; i++) {
+                const spark = document.createElement('div');
+                spark.classList.add('spark');
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 100 + Math.random() * 300;
+                spark.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                spark.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.boxShadow = `0 0 10px ${spark.style.backgroundColor}`;
+                overlay.appendChild(spark);
+            }
+
+            setTimeout(() => {
+                whiteFlash.classList.add('active');
+            }, 1800);
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                whiteFlash.classList.remove('active');
+                adminPanel.style.display = "block";
+                
+                cargarExpedientes();
+                cargarReclamaciones();
+            }, 2500);
+        }
+
         function cerrarSesion() {
             if (confirm("¿Está seguro de que desea cerrar sesión?\n\nSerá redirigido a la página principal.")) {
                 window.location.href = "index.html";
@@ -381,10 +558,60 @@
             } else if (tab === 'reclamaciones') {
                 tabs[1].classList.add('activo');
                 document.getElementById('seccionReclamaciones').classList.add('activa');
-            } else {
+            } else if (tab === 'usuarios') {
                 tabs[2].classList.add('activo');
+                document.getElementById('seccionUsuarios').classList.add('activa');
+                cargarUsuarios(); // Cargar usuarios al hacer clic
+            } else {
+                tabs[3].classList.add('activo');
                 document.getElementById('seccionHistorial').classList.add('activa');
                 cargarHistorial();
+            }
+        }
+
+        // ============================================
+        // CARGAR USUARIOS (CORREGIDO CON TUS COLUMNAS EXACTAS)
+        // ============================================
+        async function cargarUsuarios() {
+            const tbody = document.getElementById("cuerpoUsuarios");
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">⏳ Cargando usuarios...</td></tr>`;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('perfiles') 
+                    .select('*')
+                    .order('created_at', { ascending: false }); 
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Aún no hay ciudadanos registrados.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                data.forEach(user => {
+                    let fecha = "No registrada";
+                    if (user.created_at) {
+                        const dateObj = new Date(user.created_at);
+                        fecha = dateObj.toLocaleString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    }
+
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td><strong>${user.id}</strong></td>
+                        <td>${user.nombre_completo || 'Sin nombre'}</td>
+                        <td>${user.dni || 'Sin DNI'}</td>
+                        <td>${user.correo_real || 'Sin correo'}</td>
+                        <td>${fecha}</td>
+                        <td>
+                            <button class="btn-eliminar" onclick="alert('Para eliminar usuarios, ve a Supabase -> Authentication.')" title="Eliminar">🗑️</button>
+                        </td>`;
+                    tbody.appendChild(fila);
+                });
+            } catch (error) {
+                console.error("Error cargando usuarios:", error);
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: red;">Error al cargar usuarios desde la tabla 'perfiles'.</td></tr>`;
             }
         }
 
@@ -426,6 +653,7 @@
                                 <option value="RECIBIDO" ${exp.estado === 'RECIBIDO' ? 'selected' : ''}>RECIBIDO</option>
                                 <option value="EN REVISIÓN" ${exp.estado === 'EN REVISIÓN' ? 'selected' : ''}>EN REVISIÓN</option>
                                 <option value="DERIVADO" ${exp.estado === 'DERIVADO' ? 'selected' : ''}>DERIVADO</option>
+                                <option value="OBSERVADO" ${exp.estado === 'OBSERVADO' ? 'selected' : ''}>OBSERVADO</option>
                                 <option value="ATENDIDO" ${exp.estado === 'ATENDIDO' ? 'selected' : ''}>ATENDIDO</option>
                             </select>
                         </td>
@@ -469,7 +697,7 @@
                         <td>${fecha}</td>
                         <td>${rec.nombre_consumidor}</td>
                         <td>${rec.tipo_documento} ${rec.numero_documento}</td>
-                        <td><span style="background: ${rec.tipo_reclamacion === 'RECLAMO' ? '#dbeafe' : '#fef3c7'}; color: ${rec.tipo_reclamacion === 'RECLAMO' ? '#1e40af' : '#92400e'}; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">${rec.tipo_reclamacion}</span></td>
+                        <td><span style="background: ${rec.tipo_reclamacion === 'RECLAMO' ? '#cffafe' : '#fce7f3'}; color: ${rec.tipo_reclamacion === 'RECLAMO' ? '#0e7490' : '#be185d'}; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">${rec.tipo_reclamacion}</span></td>
                         <td>${rec.descripcion_bien}</td>
                         <td>
                             <select onchange="cambiarEstadoReclamo('${rec.codigo_reclamacion}', this.value, this)">
@@ -550,7 +778,7 @@
                         <td>${nombre}</td>
                         <td>${esExp ? item.dni : item.numero_documento}</td>
                         <td>${esExp ? item.asunto : item.descripcion_bien}</td>
-                        <td><strong style="color: ${item.estado === 'ATENDIDO' ? '#16a34a' : (item.estado === 'RECIBIDO' || item.estado === 'PENDIENTE' ? '#f59e0b' : '#2563eb')};">${item.estado}</strong></td>
+                        <td><strong style="color: ${item.estado === 'ATENDIDO' ? '#10b981' : (item.estado === 'RECIBIDO' || item.estado === 'PENDIENTE' ? '#f59e0b' : '#06b6d4')};">${item.estado}</strong></td>
                         <td>
                             <button class="btn-eliminar" onclick="abrirModalEliminar('${esExp ? 'expediente' : 'reclamacion'}', '${codigo}', '${esExp ? 'Expediente' : 'Reclamo'} ${codigo} - ${nombre}')" title="Eliminar">🗑️</button>
                         </td>`;
@@ -662,10 +890,8 @@
                 eliminacionPendiente = null;
                 alert("✅ Registro eliminado correctamente.");
 
-                // Recargar la vista activa
                 cargarExpedientes();
                 cargarReclamaciones();
-                // Si estamos en historial, también recargar
                 if (document.getElementById('seccionHistorial').classList.contains('activa')) {
                     aplicarFiltroHistorial();
                 }

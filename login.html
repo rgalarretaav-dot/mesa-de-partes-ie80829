@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - I.E. 80829 José Olaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        /* FONDO GENERAL (INTACTO) */
+        body { 
+            background: linear-gradient(-45deg, #020617, #1e1b4b, #0ea5e9, #4c1d95);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; padding: 20px; overflow: hidden; position: relative;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); z-index: 1; opacity: 0.7; }
+        .orb-1 { width: 500px; height: 500px; background: #3b82f6; top: -150px; left: -150px; animation: orbitOrb 8s infinite alternate ease-in-out; }
+        .orb-2 { width: 400px; height: 400px; background: #ec4899; bottom: -100px; right: -100px; animation: orbitOrb 11s infinite alternate-reverse ease-in-out; }
+        .orb-3 { width: 300px; height: 300px; background: #06b6d4; top: 40%; left: 60%; animation: orbitOrb 9s infinite alternate ease-in-out; }
+        @keyframes orbitOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(150px, 100px) scale(1.4); } }
+
+        /* TARJETA PRINCIPAL (INTACTA) */
+        .login-wrapper { 
+            position: relative; z-index: 10;
+            display: flex; width: 100%; max-width: 1050px; height: 600px; 
+            background: #ffffff; border-radius: 24px; overflow: hidden;
+            animation: epicEntrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, cardFloat 8s ease-in-out infinite;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+        @keyframes epicEntrance { from { opacity: 0; transform: translateY(100px) scale(0.8) rotateX(20deg); } to { opacity: 1; transform: translateY(0) scale(1) rotateX(0); } }
+        @keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+        .login-left {
+            width: 55%; background: linear-gradient(135deg, #1e1b4b, #312e81, #0ea5e9, #4338ca);
+            background-size: 300% 300%; animation: gradientBG 8s ease infinite;
+            display: flex; justify-content: center; align-items: center; padding: 30px; overflow: hidden;
+        }
+        .login-left img { width: 100%; max-height: 100%; object-fit: contain; border-radius: 16px; animation: epicImageFloat 5s ease-in-out infinite; }
+        @keyframes epicImageFloat { 0%, 100% { transform: translateY(0) rotateZ(0deg) rotateY(0deg); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4); } 50% { transform: translateY(-15px) rotateZ(1deg) rotateY(3deg); box-shadow: 0 25px 50px rgba(236, 72, 153, 0.5); } }
+
+        .login-right { width: 45%; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; background: #ffffff; text-align: center; }
+
+        .logo-small { width: 85px; height: 85px; object-fit: contain; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; animation: logoBreathe 3s ease-in-out infinite; }
+        @keyframes logoBreathe { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(0,0,0,0.1)); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6)); } }
+
+        /* ✅ CORREGIDO AQUÍ: Se agregó 'background-clip' y 'color: transparent' para quitar el error amarillo */
+        h2 { 
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ec4899, #1e3a8a); 
+            background-size: 300% auto; 
+            -webkit-background-clip: text; 
+            background-clip: text; /* Propiedad estándar */
+            -webkit-text-fill-color: transparent; 
+            color: transparent; /* Propiedad estándar */
+            margin-bottom: 35px; 
+            font-size: 2rem; 
+            font-weight: 800; 
+            animation: shineText 2s linear infinite; 
+        }
+        @keyframes shineText { to { background-position: 300% center; } }
+
+        .form-group { margin-bottom: 20px; text-align: left; opacity: 0; animation: epicSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .form-group:nth-child(1) { animation-delay: 0.2s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        @keyframes epicSlideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+        .form-group input { width: 100%; padding: 16px 18px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 1rem; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); outline: none; background: #f8fafc; color: #333; font-weight: 600; animation: epicInputPulse 2s infinite alternate; }
+        @keyframes epicInputPulse { 0% { border-color: #cbd5e1; box-shadow: 0 0 5px rgba(6, 182, 212, 0.1); } 100% { border-color: #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); } }
+        .form-group input:focus { border-color: #3b82f6; background: #ffffff; box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 0 6px rgba(59, 130, 246, 0.15); transform: translateY(-4px) scale(1.03); animation: none; }
+
+        /* ============================================ */
+        /* BOTÓN DE IRON MAN (REEMPLAZA AL AZUL)        */
+        /* ============================================ */
+        .btn-arc {
+            position: relative;
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px;
+            background: #020617;
+            color: white !important; 
+            font-size: 1.1rem; 
+            font-weight: 800; 
+            cursor: pointer; 
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            opacity: 0;
+            animation: epicSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+        }
+
+        .btn-arc::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                #06b6d4,
+                #8b5cf6,
+                #ec4899,
+                #fbbf24,
+                #06b6d4
+            );
+            animation: girarEnergia 3s linear infinite;
+            z-index: -2;
+        }
+
+        .btn-arc::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            border-radius: 8px;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-arc:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.8), 0 0 60px rgba(139, 92, 246, 0.6);
+            text-shadow: 0 0 10px #fff, 0 0 20px #06b6d4;
+        }
+
+        .btn-arc:hover::after {
+            background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+        }
+
+        .btn-arc:active {
+            transform: scale(0.97);
+        }
+
+        @keyframes girarEnergia {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-secondary { width: 100%; background: white; color: #1e3a8a; padding: 15px; border: 2px solid #1e3a8a; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 15px; text-align: center; display: inline-block; text-decoration: none; box-sizing: border-box; opacity: 0; animation: epicSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards; position: relative; overflow: hidden; }
+        .btn-secondary:hover { background: #eff4ff; transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3); border-color: #3b82f6; color: #3b82f6;}
+
+        /* ========================================================= */
+        /* 🚀 LOGIN ANIMATION (EPIC OVERLAY)                         */
+        /* ========================================================= */
+        .epic-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020617; z-index: 99999; display: none; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
+        .epic-overlay.active { display: flex; }
+        .cyber-grid { position: absolute; width: 100%; height: 100%; background-image: linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px); background-size: 40px 40px; animation: gridMove 2s linear infinite; opacity: 0.5; z-index: 1; }
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 40px; } }
+        #phase1 { display: flex; flex-direction: column; align-items: center; z-index: 2; position: relative; }
+        .status-text { color: #06b6d4; font-size: 1.8rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 20px #06b6d4; animation: glitchText 0.5s infinite alternate; }
+        @keyframes glitchText { 0% { text-shadow: 2px 0 red, -2px 0 blue; } 50% { text-shadow: -2px 0 red, 2px 0 blue; } 100% { text-shadow: 0 0 20px #06b6d4; } }
+        .lock-icon { font-size: 9rem; margin-bottom: 30px; filter: drop-shadow(0 0 30px #06b6d4); animation: lockSpin 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes lockSpin { 0% { transform: scale(0) rotateY(0deg); } 100% { transform: scale(1) rotateY(360deg); } }
+        .lock-icon.unlocked { animation: unlockFlash 0.6s forwards; }
+        @keyframes unlockFlash { 0% { transform: scale(1); filter: drop-shadow(0 0 30px #06b6d4); } 50% { transform: scale(1.5); filter: drop-shadow(0 0 80px #22c55e) brightness(2); } 100% { transform: scale(1); filter: drop-shadow(0 0 20px #22c55e); } }
+        .success-container { position: absolute; display: none; flex-direction: column; align-items: center; z-index: 10; }
+        .success-container.show { display: flex; }
+        .shockwave { position: absolute; border-radius: 50%; border: 6px solid #22c55e; width: 100px; height: 100px; opacity: 0; animation: shockwaveEffect 1.5s ease-out forwards; }
+        .shockwave:nth-child(2) { animation-delay: 0.2s; border-color: #06b6d4; }
+        .shockwave:nth-child(3) { animation-delay: 0.4s; border-color: #ec4899; }
+        @keyframes shockwaveEffect { 0% { transform: scale(0.2); opacity: 1; border-width: 15px; } 100% { transform: scale(10); opacity: 0; border-width: 1px; } }
+        .success-check { font-size: 10rem; color: #22c55e; filter: drop-shadow(0 0 50px #22c55e); animation: massiveCheck 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes massiveCheck { 0% { transform: scale(0) rotate(-90deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+        
+        /* ✅ CORREGIDO AQUÍ TAMBIÉN */
+        .welcome-title { 
+            font-size: 4rem; 
+            font-weight: 900; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            background: linear-gradient(90deg, #22c55e, #06b6d4, #3b82f6, #ec4899, #fbbf24); 
+            background-size: 300% auto; 
+            -webkit-background-clip: text; 
+            background-clip: text; /* Propiedad estándar */
+            -webkit-text-fill-color: transparent; 
+            color: transparent; /* Propiedad estándar */
+            animation: shineText 1.5s linear infinite, slideUp 0.5s ease-out 0.3s forwards; 
+            opacity: 0; 
+            margin-top: 20px; 
+        }
+        @keyframes slideUp { from { transform: translateY(50px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        .particle { position: absolute; border-radius: 50%; top: 50%; left: 50%; opacity: 0; animation: particleExplode 2s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 5; }
+        @keyframes particleExplode { 0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(720deg); opacity: 0; } }
+        .final-flash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffffff; z-index: 999999; opacity: 0; pointer-events: none; }
+        .final-flash.active { animation: flashAndZoom 1s ease-in forwards; }
+        @keyframes flashAndZoom { 0% { opacity: 0; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } 100% { opacity: 1; transform: scale(2); } }
+
+        /* ========================================================= */
+        /* 💥 REGISTRO HIPER-ÉPICO (SUPER ANIMACIÓN)                 */
+        /* ========================================================= */
+        .mega-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 99999; display: none; justify-content: center; align-items: center;
+            overflow: hidden; perspective: 1000px;
+        }
+        .mega-overlay.active { display: flex; animation: screenShake 0.5s infinite; }
+        
+        @keyframes screenShake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-2px, -1px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .hex-core {
+            position: absolute; width: 200px; height: 200px;
+            border: 6px solid #06b6d4; box-shadow: 0 0 50px #06b6d4, inset 0 0 50px #06b6d4;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hexSpin 3s linear infinite, hexPulse 1s infinite alternate;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .hex-core::before {
+            content: ''; position: absolute; width: 140px; height: 140px;
+            border: 4px solid #ec4899; box-shadow: 0 0 40px #ec4899, inset 0 0 40px #ec4899;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hexSpinReverse 2s linear infinite;
+        }
+        @keyframes hexSpin { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(360deg) scale(1.1); } }
+        @keyframes hexSpinReverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+        @keyframes hexPulse { 0% { opacity: 0.8; } 100% { opacity: 1; filter: drop-shadow(0 0 30px #ec4899); } }
+
+        .mega-text {
+            position: absolute; bottom: 20%; color: #fff; font-family: 'Courier New', monospace;
+            font-size: 2rem; font-weight: bold; letter-spacing: 5px; text-transform: uppercase;
+            animation: textFlicker 0.2s infinite, pulseTextMega 1.5s infinite; z-index: 10;
+        }
+        @keyframes textFlicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } 75% { opacity: 0.5; } }
+        @keyframes pulseTextMega { 0%, 100% { text-shadow: 0 0 20px #06b6d4, 0 0 40px #06b6d4; } 50% { text-shadow: 0 0 20px #ec4899, 0 0 40px #ec4899; } }
+
+        .data-stream {
+            position: absolute; white-space: nowrap; font-family: 'Courier New', monospace;
+            font-size: 1.5rem; color: rgba(6, 182, 212, 0.5); font-weight: bold;
+            animation: streamMove 1s linear infinite;
+        }
+        @keyframes streamMove { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
+
+        .black-hole {
+            position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 100px 50px #fff, 0 0 200px 100px #06b6d4;
+            animation: expandBlackHole 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 2.5s forwards;
+            z-index: 20; opacity: 0;
+        }
+        @keyframes expandBlackHole {
+            0% { transform: scale(1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(500); opacity: 1; background: #fff; box-shadow: none; }
+        }
+
+        @media (max-width: 850px) {
+            .login-wrapper { flex-direction: column; height: auto; max-width: 420px; }
+            .login-left { display: none; }
+            .login-right { width: 100%; padding: 40px 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="login-wrapper">
+        <div class="login-left">
+            <img src="banner.jpg" alt="Banner I.E. José Olaya">
+        </div>
+        <div class="login-right">
+            <img src="logo.png" alt="Escudo José Olaya" class="logo-small">
+            <h2>Iniciar sesión</h2>
+
+            <form id="formLogin" autocomplete="off" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <input type="text" id="loginDni" placeholder="DNI (8 dígitos)" maxlength="8" autocomplete="off" value="">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Contraseña" autocomplete="new-password" value="">
+                </div>
+                <!-- ✅ BOTÓN CON LA ANIMACIÓN -->
+                <button type="button" class="btn-arc" onclick="iniciarSesion()">Iniciar Sesión</button>
+            </form>
+
+            <a href="#" class="btn-secondary" onclick="iniciarMegaAnimacion(event)">Crear cuenta</a>
+        </div>
+    </div>
+
+    <!-- LOGIN OVERLAY (INTACTO) -->
+    <div class="epic-overlay" id="epicOverlay">
+        <div class="cyber-grid" id="cyberGrid"></div>
+        <div id="phase1">
+            <div class="lock-icon" id="lockIcon">🔒</div>
+            <div class="status-text" id="statusText">Desencriptando...</div>
+        </div>
+        <div class="success-container" id="phase2">
+            <div class="shockwave"></div><div class="shockwave"></div><div class="shockwave"></div>
+            <div class="success-check">✔️</div><div class="welcome-title">¡BIENVENIDO!</div>
+        </div>
+    </div>
+    <div class="final-flash" id="finalFlash"></div>
+
+    <!-- MEGA OVERLAY PARA EL REGISTRO -->
+    <div class="mega-overlay" id="megaOverlay">
+        <div class="hex-core"></div>
+        <div class="mega-text" id="megaText">INICIANDO PROTOCOLO...</div>
+        <div class="black-hole" id="blackHole"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://bjqglpoixyexekpiviti.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_eHgu4robG0UZBk5VqtaPug_V8gJnq4X';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loginDni').value = "";
+                document.getElementById('loginPassword').value = "";
+            }, 100);
+        });
+
+        window.onload = async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) { window.location.href = "index.html"; }
+        };
+
+        function generarCorreoOculto(dni) {
+            return dni + "@gmail.com"; 
+        }
+
+        /* ========================================== */
+        /* LÓGICA DEL LOGIN               */
+        /* ========================================== */
+        function createMatrixRain() {
+            const grid = document.getElementById('cyberGrid');
+            for (let i = 0; i < 50; i++) {
+                const drop = document.createElement('div');
+                drop.innerText = Math.random() > 0.5 ? '1' : '0';
+                drop.style.position = 'absolute'; drop.style.left = Math.random() * 100 + 'vw'; drop.style.top = '-50px';
+                drop.style.color = '#22c55e'; drop.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                drop.style.fontFamily = 'monospace'; drop.style.opacity = Math.random() * 0.5 + 0.1;
+                drop.style.animation = `matrixFall ${Math.random() * 2 + 1}s linear forwards`;
+                grid.appendChild(drop); setTimeout(() => drop.remove(), 3000);
+            }
+            if (!document.getElementById('matrixKeyframes')) {
+                const style = document.createElement('style'); style.id = 'matrixKeyframes';
+                style.innerHTML = `@keyframes matrixFall { 0% { transform: translateY(0); } 100% { transform: translateY(110vh); opacity: 0; } }`;
+                document.head.appendChild(style);
+            }
+        }
+
+        function createSupernova() {
+            const colors = ['#22c55e', '#06b6d4', '#3b82f6', '#ec4899', '#fbbf24', '#f87171', '#a78bfa'];
+            for (let i = 0; i < 150; i++) {
+                const p = document.createElement('div'); p.classList.add('particle');
+                const angle = Math.random() * Math.PI * 2; const distance = 50 + Math.random() * 400; 
+                p.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+                p.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+                p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 12 + 5;
+                p.style.width = size + 'px'; p.style.height = size + 'px';
+                if (Math.random() > 0.7) p.style.borderRadius = '0'; 
+                p.style.boxShadow = `0 0 15px ${p.style.backgroundColor}`;
+                p.style.animationDelay = (Math.random() * 0.2) + 's';
+                document.getElementById('epicOverlay').appendChild(p);
+            }
+        }
+
+        async function iniciarSesion() {
+            const dni = document.getElementById('loginDni').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!dni || !password) { alert("Por favor, complete todos los campos."); return; }
+            if (dni.length !== 8 || isNaN(dni)) { alert("El DNI debe tener exactamente 8 números."); return; }
+
+            const btn = document.querySelector('.btn-arc'); 
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = '⏳'; btn.disabled = true; btn.style.animation = 'none';
+
+            const emailFalso = generarCorreoOculto(dni);
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email: emailFalso, password: password });
+                if (error) throw error;
+
+                const overlay = document.getElementById('epicOverlay');
+                const lockIcon = document.getElementById('lockIcon');
+                const statusText = document.getElementById('statusText');
+                const phase1 = document.getElementById('phase1');
+                const phase2 = document.getElementById('phase2');
+                const finalFlash = document.getElementById('finalFlash');
+
+                overlay.classList.add('active'); createMatrixRain();
+
+                setTimeout(() => {
+                    lockIcon.innerText = '🔓'; lockIcon.classList.add('unlocked');
+                    statusText.innerText = "¡IDENTIDAD VERIFICADA!"; statusText.style.color = "#22c55e"; statusText.style.textShadow = "0 0 30px #22c55e";
+                }, 1500);
+
+                setTimeout(() => { phase1.style.display = 'none'; phase2.classList.add('show'); createSupernova(); }, 2300);
+                setTimeout(() => { finalFlash.classList.add('active'); }, 4000);
+                setTimeout(() => { window.location.href = "index.html"; }, 4800);
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error al iniciar sesión: DNI o contraseña incorrectos.");
+                btn.innerHTML = textoOriginal; btn.disabled = false; btn.style.animation = ''; 
+            }
+        }
+
+        /* ========================================== */
+        /* MEGA ANIMACIÓN DE REGISTRO                 */
+        /* ========================================== */
+        function iniciarMegaAnimacion(event) {
+            event.preventDefault();
+            
+            const overlay = document.getElementById('megaOverlay');
+            const megaText = document.getElementById('megaText');
+            const blackHole = document.getElementById('blackHole');
+
+            overlay.classList.add('active');
+            
+            for (let i = 0; i < 30; i++) {
+                const stream = document.createElement('div');
+                stream.classList.add('data-stream');
+                stream.innerText = Math.random() > 0.5 ? '01001010 01101001 01101101' : '01010010 01101111 01100010';
+                stream.style.top = Math.random() * 100 + 'vh';
+                stream.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                stream.style.animationDelay = (Math.random() * 1) + 's';
+                overlay.appendChild(stream);
+            }
+
+            setTimeout(() => { megaText.innerText = "CONECTANDO AL NÚCLEO..."; }, 1000);
+            setTimeout(() => { megaText.innerText = "SOBRECARGANDO ENERGÍA..."; }, 2000);
+            setTimeout(() => { 
+                megaText.innerText = "¡ABRIENDO PORTAL!"; 
+                megaText.style.color = "#ec4899";
+                megaText.style.textShadow = "0 0 30px #ec4899";
+                blackHole.style.opacity = "1";
+            }, 2800);
+
+            setTimeout(() => {
+                window.location.href = "registro-ciudadano.html";
+            }, 3800);
+        }
+    </script>
+</body>
+</html>

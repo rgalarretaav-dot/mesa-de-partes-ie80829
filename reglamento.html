@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reglamento Interno 2026 - I.E. 80829 José Olaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        /* FONDO ANIMADO */
+        body { 
+            background: linear-gradient(135deg, #0f172a, #1e3a8a, #3b82f6, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333; min-height: 100vh; padding: 30px 20px; position: relative; overflow-x: hidden;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* BURBUJAS */
+        .bubbles { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: 1; pointer-events: none; }
+        .bubble { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; backdrop-filter: blur(5px); animation: floatUp linear infinite; }
+        .bubble:nth-child(1) { width: 100px; height: 100px; left: 10%; animation-duration: 10s; }
+        .bubble:nth-child(2) { width: 60px; height: 60px; left: 40%; animation-duration: 14s; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 120px; height: 120px; left: 80%; animation-duration: 12s; animation-delay: 4s; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-1000px) scale(1.5); opacity: 0; } }
+
+        /* CONTENEDOR PRINCIPAL */
+        .main-container {
+            position: relative; z-index: 10;
+            max-width: 1100px; margin: 0 auto;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 40px rgba(59, 130, 246, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* PORTADA */
+        .portada {
+            background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+            padding: 40px;
+            text-align: center; color: white; position: relative;
+            border-bottom: 5px solid #3b82f6;
+        }
+        .portada h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .portada h2 { font-size: 1.1rem; font-weight: 400; opacity: 0.9; letter-spacing: 1px; }
+        .portada .year { font-size: 2.5rem; font-weight: 800; color: #fbbf24; margin-top: 10px; display: inline-block; animation: pulseYear 2s infinite alternate; }
+        @keyframes pulseYear { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+        /* LAYOUT */
+        .content-wrapper { display: flex; min-height: 600px; }
+
+        /* MENÚ LATERAL */
+        .sidebar {
+            width: 30%; background: #f8fafc; padding: 30px 20px;
+            border-right: 2px solid #e2e8f0;
+        }
+        .sidebar h3 { font-size: 1rem; color: #1e3a8a; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 10px; }
+        .sidebar a {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 15px; border-radius: 10px;
+            text-decoration: none; color: #475569; font-weight: 600; font-size: 0.9rem;
+            transition: all 0.3s ease; cursor: pointer;
+            background: white; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: #eff6ff; color: #1e3a8a; border-color: #bfdbfe;
+            transform: translateX(5px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1);
+        }
+
+        /* ÁREA DE CONTENIDO */
+        .content-area {
+            width: 70%; padding: 40px; background: white;
+            max-height: 850px; overflow-y: auto; scroll-behavior: smooth;
+        }
+        .content-area::-webkit-scrollbar { width: 8px; }
+        .content-area::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .content-area::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+
+        /* IMAGEN DEL PÓSTER */
+        .poster-container {
+            text-align: center; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 2px dashed #cbd5e1;
+        }
+        .poster-container img {
+            max-width: 100%; height: auto; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: transform 0.3s;
+        }
+        .poster-container img:hover { transform: scale(1.02); }
+        .poster-caption { margin-top: 10px; font-size: 0.9rem; color: #64748b; font-weight: 500; }
+
+        /* ACORDEONES */
+        details {
+            background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px;
+            margin-bottom: 15px; overflow: hidden; transition: all 0.3s ease;
+        }
+        details[open] { border-color: #3b82f6; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); background: white; }
+        
+        summary {
+            padding: 20px; font-weight: 700; color: #1e3a8a; cursor: pointer;
+            list-style: none; display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.05rem; transition: background 0.3s;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { background: #eff6ff; }
+        summary::after {
+            content: '+'; font-size: 1.5rem; color: #3b82f6; font-weight: bold; transition: transform 0.3s ease;
+        }
+        details[open] summary::after { transform: rotate(45deg); color: #ef4444; }
+
+        .details-content {
+            padding: 0 20px 20px 20px; color: #475569; font-size: 0.95rem; line-height: 1.7;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .details-content ul, .details-content ol { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
+        .details-content li { margin-bottom: 8px; }
+        .details-content strong { color: #1e293b; }
+
+        /* BOTÓN VOLVER */
+        .btn-volver-container { text-align: center; padding: 20px; background: #f8fafc; border-top: 2px solid #e2e8f0; }
+        .btn-volver {
+            display: inline-block; background: #1e3a8a; color: white; text-decoration: none;
+            padding: 12px 30px; border-radius: 8px; font-weight: 700; transition: all 0.3s;
+        }
+        .btn-volver:hover { background: #3b82f6; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59,130,246,0.4); }
+
+        @media (max-width: 800px) {
+            .content-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid #e2e8f0; }
+            .content-area { width: 100%; max-height: none; padding: 20px; }
+            .portada h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bubbles"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div></div>
+
+    <div class="main-container">
+        
+        <div class="portada">
+            <h1>Reglamento Interno</h1>
+            <h2>I.E. N° 80829 "José Olaya" - La Esperanza</h2>
+            <div class="year">2026</div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- MENÚ LATERAL -->
+            <div class="sidebar">
+                <h3>Índice del Documento</h3>
+                <ul>
+                    <li><a href="#cap1" class="nav-link">📖 Capítulo I: Definición</a></li>
+                    <li><a href="#cap2" class="nav-link">🏫 Capítulo II: Identidad</a></li>
+                    <li><a href="#cap3" class="nav-link">🤝 Capítulo III: Convivencia</a></li>
+                    <li><a href="#cap4" class="nav-link">⚖️ Capítulo IV: Derechos</a></li>
+                    <li><a href="#cap5" class="nav-link">📝 Capítulo V: Matrícula</a></li>
+                    <li><a href="#cap6" class="nav-link">🩺 Capítulo VI: Atención</a></li>
+                </ul>
+            </div>
+
+            <!-- CONTENIDO -->
+            <div class="content-area" id="scroll-area">
+                
+                <!-- ✅ AQUÍ ESTÁ LA IMAGEN DEL PÓSTER QUE ME DISTE -->
+                <div class="poster-container">
+                    <img src="normas.jpg" alt="Póster Normas de Convivencia 2026">
+                    <p class="poster-caption">Póster Oficial: Normas de Convivencia Institucional 2026</p>
+                </div>
+
+                <p style="margin-bottom: 20px; color: #64748b; font-style: italic;">Haz clic en cada capítulo para desplegar la información oficial.</p>
+
+                <!-- CAPÍTULO I -->
+                <details id="cap1" open>
+                    <summary>📖 Capítulo I: Del Reglamento Interno</summary>
+                    <div class="details-content">
+                        <p><strong>Definición:</strong> El RI es el instrumento de gestión que regula la organización y el funcionamiento integral de la IE. Establece las tareas, responsabilidades y derechos de todos los integrantes de la comunidad educativa.</p>
+                        <p style="margin-top: 15px;"><strong>Beneficios:</strong></p>
+                        <ul>
+                            <li>Delimita claramente responsabilidades.</li>
+                            <li>Promueve la autonomía de la IE.</li>
+                            <li>Protege a los integrantes de la comunidad.</li>
+                            <li>Construye un clima escolar positivo.</li>
+                            <li>Fortalece la identidad institucional.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- CAPÍTULO II -->
+                <details id="cap2">
+                    <summary>🏫 Capítulo II: Identidad y Organización</summary>
+                    <div class="details-content">
+                        <p><strong>Misión:</strong> Lograr que nuestros estudiantes culminen su escolaridad siendo capaces de asumir sus deberes y defender sus derechos, comprometidos con su hacer ético y respeto a la ecología integral.</p>
+                        <p style="margin-top: 10px;"><strong>Visión 2027:</strong> Seremos reconocidos como una institución educativa líder en la formación de futuros ciudadanos con pensamiento emprendedor y uso responsable de las TIC.</p>
+                        <p style="margin-top: 15px;"><strong>Comités de Gestión Escolar:</strong></p>
+                        <ul>
+                            <li>Comité de Condiciones Operativas.</li>
+                            <li>Comité de Gestión Pedagógica.</li>
+                            <li>Comité de Gestión del Bienestar.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- CAPÍTULO III -->
+                <details id="cap3">
+                    <summary>🤝 Capítulo III: Normas de Convivencia</summary>
+                    <div class="details-content">
+                        <p><strong>Aprobadas para el año 2026 (RD N.º 034-2026):</strong></p>
+                        <ol>
+                            <li>Asistimos puntualmente a la IE y cumplimos responsablemente con nuestros horarios y compromisos.</li>
+                            <li>Demostramos respeto en nuestra convivencia, promoviendo el diálogo, la equidad y fomentando una interacción social inclusiva, libre de violencia y discriminación.</li>
+                            <li>Mantenemos una adecuada presentación personal, cuidando nuestra higiene y resaltando nuestra identidad institucional, luciendo el uniforme que nos identifica.</li>
+                            <li>Cuidamos el ambiente, los espacios y materiales de la institución, practicando hábitos saludables y responsables.</li>
+                            <li>Regulamos el uso de medios y dispositivos electrónicos, permitiéndolos solo con autorización y con fines educativos.</li>
+                        </ol>
+                    </div>
+                </details>
+
+                <!-- CAPÍTULO IV -->
+                <details id="cap4">
+                    <summary>⚖️ Capítulo IV: Derechos y Responsabilidades</summary>
+                    <div class="details-content">
+                        <p><strong>Estudiantes:</strong> Tienen derecho a la no discriminación, a opinar y ser escuchados. Tienen la responsabilidad de realizar sus tareas, respetar a los demás y cuidar los bienes de la IE.</p>
+                        <p style="margin-top: 10px;"><strong>Docentes:</strong> Tienen derecho a condiciones de trabajo adecuadas. Su responsabilidad es acompañar a los estudiantes e informar a las familias.</p>
+                        <p style="margin-top: 10px;"><strong>Familias:</strong> Tienen derecho a participar en el proceso formativo. Su responsabilidad es promover el trato igualitario y colaborar con la IE.</p>
+                    </div>
+                </details>
+
+                <!-- CAPÍTULO V -->
+                <details id="cap5">
+                    <summary>📝 Capítulo V: Matrícula y Evaluación</summary>
+                    <div class="details-content">
+                        <p><strong>Requisitos de vacante:</strong> Ficha de matrícula, copia del DNI, copia del informe de progreso, y autorización en caso de no ser los padres.</p>
+                        <p style="margin-top: 10px;"><strong>Criterios de asignación:</strong> Si hay más demanda que oferta, se priorizará a quienes tengan un hermano en la IE, residencia cercana, y fecha de presentación de solicitudes.</p>
+                    </div>
+                </details>
+
+                <!-- CAPÍTULO VI -->
+                <details id="cap6">
+                    <summary>🩺 Capítulo VI: Mecanismos de Atención</summary>
+                    <div class="details-content">
+                        <p><strong>Atención a familias:</strong> Las familias deben seguir el conducto regular: Docente -> Tutor -> Personal Jerárquico -> Directivo.</p>
+                        <p style="margin-top: 10px;"><strong>Resolución de conflictos:</strong> Se aplicará el enfoque de derechos. Se registrará todo en el libro de incidencias.</p>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+
+        <div class="btn-volver-container">
+            <a href="index.html" class="btn-volver">← Volver a la Página Principal</a>
+        </div>
+
+    </div>
+
+    <script>
+        // ✅ SOLUCIÓN 1: Hacer que el menú funcione (abra los acordeones y haga scroll)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Evita el salto brusco por defecto
+                
+                const targetId = this.getAttribute('href').substring(1); // Obtiene "cap1", "cap2", etc.
+                const targetElement = document.getElementById(targetId);
+                const scrollArea = document.getElementById('scroll-area');
+
+                if (targetElement) {
+                    // 1. Abrir el acordeón si está cerrado
+                    targetElement.setAttribute('open', '');
+
+                    // 2. Hacer scroll suave dentro del contenedor de contenido
+                    // Calculamos la posición del elemento respecto al contenedor
+                    const yOffset = -20; // Margen superior
+                    const y = targetElement.getBoundingClientRect().top + scrollArea.scrollTop + yOffset;
+                    
+                    scrollArea.scrollTo({ top: y, behavior: 'smooth' });
+
+                    // 3. Resaltar el enlace en el menú
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
